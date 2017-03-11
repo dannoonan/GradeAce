@@ -75,21 +75,9 @@
 					<div>
 						<div class="row">
 							<div class="12u">
-								<form action="formSubmission.php" method="post">
-								<input type="text" name="fname" placeholder="Please enter your first name"><br>
-							<input type="text" name="lname" placeholder="Please enter your last name"><br>
-							<input type="text" name="email" placeholder="Please enter your email address"><br>
-							<input type="text" name="pass" placeholder="Please enter a password"><br>
-							<input type="submit" value="Register">
-							</form>
-								
-								
-								
-								
-								
-								
-								
-								
+
+							<input type="button" value="Register Now" onclick="window.open('Register.php')">
+			
 							</div>
 						</div>
 						
