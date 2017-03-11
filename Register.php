@@ -56,10 +56,18 @@
 							<input type="text" name="FirstName" placeholder="Please enter your first name">
 							<input type="text" name="LastName" placeholder="Please enter your last name">
 							<input type="email" name="Email" placeholder="Please enter your email">
-							<input type="text" name="Course" placeholder="Please enter your course">
+							<select name="Course">
+								<option value="">Select...</option>
+								<option value="Computers">Computers</option>
+								<option value="Engineering">Engineering</option>
+								<option value="Law">Law</option>
+								<option value="Science">Science</option>
+								<option value="Arts">Arts</option>
+							</select>
 							<input type="text" name="Password" placeholder="Please enter your password">
 
 							<input type="submit" value="Register" name="register_btn">
+							<h4>(Once Registered please log in)</h4>
 							</form>
 
 
