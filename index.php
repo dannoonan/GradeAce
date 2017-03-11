@@ -1,4 +1,6 @@
-<?php include  "login.php"; ?>
+<?php 
+	include  "login.php"; 
+?>
 <!DOCTYPE  html>
 <html>
 <head>
@@ -76,7 +78,7 @@
 						<div class="row">
 							<div class="12u">
 
-							<input type="button" value="Register Now" onclick="window.open('Register.php')">
+							<input type="button" value="Register Now" onclick="window.open('Register.php', '_self')">
 			
 							</div>
 						</div>
