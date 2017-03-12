@@ -9,13 +9,26 @@
 
 /* Reset */
 
-	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-		margin: 0;
+	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+		margin: auto;
 		padding: 0;
 		border: 0;
 		font-size: 100%;
 		font: inherit;
 		vertical-align: baseline;
+	}
+	
+	img{
+		margin: auto;
+		margin-left:38%;
+		margin-bottom:2%;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		font: inherit;
+		vertical-align: baseline;
+		border-radius: 50%;
+		
 	}
 
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -339,9 +352,8 @@
 	}
 
 	.\34 u, .\34 u\24 {
-		width: 33.3333333333%;
 		clear: none;
-		margin-left: 0;
+		margin-left: 15%;
 	}
 
 	.\33 u, .\33 u\24 {
@@ -1163,15 +1175,14 @@
 
 	hr {
 		border: 0;
-		border-top: solid 1px #444;
 		border-top-color: rgba(0, 0, 0, 0.35);
 		box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.1);
 		height: 1px;
-		margin: 3em 0 4em 0;
+		margin: 3em 0 0 0;
 	}
 
 	p, ul, ol, dl, table {
-		margin-bottom: 2em;
+		margin-bottom: 0.5em;
 	}
 
 /* Form */
@@ -1180,7 +1191,7 @@
 		color: #3e3e3e;
 		font-weight: 700;
 		display: block;
-		margin: 0 0 0.5em 0;
+		margin: 0 0.5em 0.5em 0;
 	}
 
 	form input[type=text],
@@ -1291,6 +1302,10 @@
 
 /* Image */
 
+    .newImage{
+		
+	}
+
 	.image {
 		display: inline-block;
 		position: relative;
@@ -1304,6 +1319,7 @@
 		.image.fit {
 			display: inline;
 			width: 100%;
+			border-radius: 50%;
 			
 		}
 
@@ -1344,7 +1360,6 @@
 		-ms-transition: background-color .2s ease-in-out;
 		transition: background-color .2s ease-in-out;
 		-webkit-appearance: none;
-		position: relative;
 		display: inline-block;
 		color: #fff !important;
 		text-decoration: none;
@@ -1775,7 +1790,7 @@
 			form input[type="reset"],
 			form button,
 			form .button {
-				margin: 0 0.5em 0 0.5em;
+				margin: 1em  0 1em;
 			}
 
 		/* Button */
@@ -1860,7 +1875,7 @@
 		/* Articles */
 
 			#top {
-				text-align: left;
+				text-align: center;
 			}
 
 				#top .image {
