@@ -1,43 +1,34 @@
-<html>
-
-<body>
 <?php
-
-	include ("database.php");
-	session_start();
-	$username = $password = "";
-
-
-	if($_SERVER["REQUEST_METHOD"]=="POST"){
+		
+	if(isset($_POST['login_btn'])){
+		
+		include 'database.php';
+		//remember to strip tags and slashes 
+		$email = $_POST['email'];
+		$password = $_POST["pass"];
+		
+		//$password = md5($password);
+		
+		$sql = "SELECT * FROM users WHERE Email ='$email'";
+		$query = mysqli_query($db, $sql);
+		$row = mysqli_fetch_array($query);
+		
+		$db_email = $row['Email'];
+		$db_password = $row['Password'];
 		
 		
-	
-		$username = test_input($_POST["name"]);
-		$password = test_input($_POST["password"]);
-		
-		
-		$result  =  mysql_query("SELECT  *  FROM  users"); 
-			$c_rows  =  mysql_num_rows($result); 
-			if  ($c_rows!=$username)  { 
-				header("location:  index.php?remark_login=failed"); 
-			}
-		
-		
-		
-		function test_input($data){
+		if($password == $db_password){
+			$id = $row['UserID'];
+			$_SESSION['email'] = $email;
+			$_SESSION['id'] = $id;
+			header("Location: welcome.php");
+		}
+		else{
+			echo "incorrect email or password";
 			
-			$data = trim($data);
-			$data = stripslashes($data);
-			$data = htmlspecialchars($data);
-			return $data;
+		}
+		
+		
 		
 	}
-	
-		echo $username;
-		echo $password;
-	}
-
-?>
-
-</body>
-</html>
+		?>
