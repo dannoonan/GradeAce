@@ -18,7 +18,7 @@
 			echo $id;
 		}
 		else{
-			echo "Not welcome";
+			echo "welcome but id not specified";
 		}
 		
 
