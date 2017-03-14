@@ -15,7 +15,7 @@
 
 			echo "Welcome ";
 			echo  $fname ;
-			echo $id;
+		
 		}
 		else{
 			echo "welcome but id not specified";
