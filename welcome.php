@@ -12,7 +12,7 @@
 		
 		
 		if($_SESSION['id']){
-			
+
 			echo "Welcome ";
 			echo  $fname ;
 			echo $id;
