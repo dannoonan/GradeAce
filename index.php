@@ -34,25 +34,10 @@
 								<h1>Welcome to <strong>GradeAce</strong>.</h1>
 							</header>
 							<form action="login.php" method="post">
-							 <?php
-								$remarks  =  isset($_GET['remark_login'])  ?  $_GET['remark_login']  :  '';
-								if  ($remarks==null  and  $remarks==""){
-									echo  '
-											<div  id="reg-head"  class="headrg">Login  Here</div>
- 
-									';
-								}
-								if  ($remarks=='failed'){
-									echo  '
-									<div  id="reg-head-fail"  class="headrg">Login  Failed!  Invalid  Credentials</div>
- 
-									';
-								}
-							?>
 							<input type="text" name="email" placeholder="Please enter your email address">
 							<input type="text" name="pass" placeholder="Please enter your password">
 
-							<input type="submit" value="Login">
+							<input type="submit" value="Login" name = "login_btn">
 							</form>
 
 
