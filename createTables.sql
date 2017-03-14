@@ -52,7 +52,7 @@ FOREIGN KEY (`UserId`) REFERENCES Users(`UserId`)
 
 CREATE TABLE IF NOT EXISTS `Tags` (
 `TagId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-`Tag` varchar(128) unsigned NOT NULL,
+`Tag` varchar(128) NOT NULL,
 PRIMARY KEY (`TagId`)
 );
 
