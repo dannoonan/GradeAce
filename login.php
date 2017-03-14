@@ -1,5 +1,5 @@
 <?php
-		
+	session_start();
 	if(isset($_POST['login_btn'])){
 		
 		include 'database.php';
@@ -18,10 +18,16 @@
 		
 		
 		if($password == $db_password){
-			$id = $row['UserID'];
+			$_SESSION['id'] = $row['UserId'];
+			
 			$_SESSION['email'] = $email;
-			$_SESSION['id'] = $id;
+		
+			if($_SESSION['id']){
 			header("Location: welcome.php");
+			}
+			else{
+				echo "No id";
+			}
 		}
 		else{
 			echo "incorrect email or password";
