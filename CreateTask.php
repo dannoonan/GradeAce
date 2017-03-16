@@ -4,28 +4,48 @@
 	
 	require_once('load.php');
 	
+	
 	if (isset($_POST['create_btn'])){
 		$Title=($_POST['Title']);
 		$TaskType=($_POST['TaskType']);
 		$Description=($_POST['Description']);
-		if(!(empty($_POST['Tag1'])))
-			$Tag1=($_POST['Tag1']);
-		if(!(empty($_POST['Tag2'])))
-			$Tag2=($_POST['Tag2']);
-		if(!(empty($_POST['Tag3'])))
-			$Tag3=($_POST['Tag3']);
-		if(!(empty($_POST['Tag4'])))
-			$Tag4=($_POST['Tag4']);
 		$Pages=($_POST['Pages']);
 		$Words=($_POST['Words']);
 		$FileFormat=($_POST['FileFormat']);
 		$ClaimDate=($_POST['ClaimDate']);
 		$CompleteDate=($_POST['CompleteDate']);
 		
-		$FilePath=('ABCD');	//For now just to have all details
+		$FilePath=('c');	//For now just to have all details
 			
 		$sql = "INSERT INTO tasks(Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
 		mysqli_query($db, $sql);
+				
+		$TaskId = mysqli_insert_id();
+		
+		if(!(empty($_POST['Tag1']))){
+			$Tag1=($_POST['Tag1']);
+			mysqli_query($db, "INSERT INTO tags(Tag) VALUES('$Tag1')");
+			mysqli_query($db,"INSERT INTO tasktags(TaskId, TagId) Values ('$TaskId', '$Tag1')");
+		}
+		if(!(empty($_POST['Tag2']))){
+			$Tag2=($_POST['Tag2']);
+			$sqlTag2="INSERT INTO tags(Tag) VALUES('$Tag2')";
+			mysqli_query($db, $sqlTag2);
+			mysqli_query($db,"INSERT INTO tasktags(TaskId, TagId) Values ('$TaskId', '$Tag2')");
+		}
+		if(!(empty($_POST['Tag3']))){
+			$Tag3=($_POST['Tag3']);
+			$sqlTag3="INSERT INTO tags(Tag) VALUES('$Tag3')";
+			mysqli_query($db, $sqlTag3);
+			mysqli_query($db,"INSERT INTO tasktags(TaskId, TagId) Values ('$TaskId', '$Tag3')");
+		}
+		if(!(empty($_POST['Tag4']))){
+			$Tag4=($_POST['Tag4']);
+			$sqlTag4="INSERT INTO tags(Tag) VALUES('$Tag4')";
+			mysqli_query($db, $sqlTag4);
+			mysqli_query($db,"INSERT INTO tasktags(TaskId, TagId) Values ('$TaskId', '$Tag4')");
+		}
+				
 		//header("location: index.php");
 	}
 
