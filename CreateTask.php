@@ -1,5 +1,5 @@
 <?php
-
+	
 	session_start();
 	
 	require_once('load.php');
@@ -15,39 +15,66 @@
 		$ClaimDate=($_POST['ClaimDate']);
 		$CompleteDate=($_POST['CompleteDate']);
 		
-		$FilePath=('c');	//For now just to have all details
+		$FilePath=('f');	//For now just to have all details
 			
 		$sql = "INSERT INTO tasks(Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
 		mysqli_query($db, $sql);
 				
-		$TaskId = mysqli_insert_id();
+		$TaskId = mysqli_insert_id($db)or die(mysqli_error($db));
 		
-		if(!(empty($_POST['Tag1']))){
-			$Tag1=($_POST['Tag1']);
-			mysqli_query($db, "INSERT INTO tags(Tag) VALUES('$Tag1')");
-			mysqli_query($db,"INSERT INTO tasktags(TaskId, TagId) Values ('$TaskId', '$Tag1')");
+		for($i=0; $i<4; $i++)
+		{
+			$cont=false;
+			if($i==0 && !(empty($_POST['Tag1'])))
+			{
+				$Tag=($_POST['Tag1']);
+				$cont=true;
+			}
+			else if($i==1 && !(empty($_POST['Tag2'])))
+			{
+				$Tag=($_POST['Tag2']);
+				$cont=true;
+			}
+			else if ($i==2 && !(empty($_POST['Tag3'])))
+			{
+				$Tag=($_POST['Tag3']);
+				$cont=true;
+			}
+			else if ($i==3 && !(empty($_POST['Tag4'])))
+			{
+				$Tag=($_POST['Tag4']);
+				$cont=true;
+			}
+			
+			if($cont == TRUE)
+			{
+				$Query = "Select Tag from tags where Tag = '$Tag' ";
+				if($result = mysqli_query($db, $Query)) {
+				if ( $result===NULL || mysqli_num_rows($result) == 0 ) {					
+					mysqli_query($db, "INSERT INTO tags(Tag) VALUES('$Tag')");
+					$TagId = mysqli_insert_id($db)or die(mysqli_error($db));
+					mysqli_query($db,"INSERT INTO tasktags(TaskId, TagId) Values ('$TaskId', '$TagId')");
+				} else {
+					$GetTagId=mysqli_query($db, "SELECT TagId FROM tags WHERE Tag='$Tag'");
+					$GetTagId = mysqli_fetch_array($GetTagId);
+					$TagId=$GetTagId['TagId'];
+					mysqli_query($db,"INSERT INTO tasktags(TaskId, TagId) Values ('$TaskId', '$TagId')");
+				}
+				} else {
+					echo "Query failed ". $Query;
+				}
+			}
 		}
-		if(!(empty($_POST['Tag2']))){
-			$Tag2=($_POST['Tag2']);
-			$sqlTag2="INSERT INTO tags(Tag) VALUES('$Tag2')";
-			mysqli_query($db, $sqlTag2);
-			mysqli_query($db,"INSERT INTO tasktags(TaskId, TagId) Values ('$TaskId', '$Tag2')");
-		}
-		if(!(empty($_POST['Tag3']))){
-			$Tag3=($_POST['Tag3']);
-			$sqlTag3="INSERT INTO tags(Tag) VALUES('$Tag3')";
-			mysqli_query($db, $sqlTag3);
-			mysqli_query($db,"INSERT INTO tasktags(TaskId, TagId) Values ('$TaskId', '$Tag3')");
-		}
-		if(!(empty($_POST['Tag4']))){
-			$Tag4=($_POST['Tag4']);
-			$sqlTag4="INSERT INTO tags(Tag) VALUES('$Tag4')";
-			mysqli_query($db, $sqlTag4);
-			mysqli_query($db,"INSERT INTO tasktags(TaskId, TagId) Values ('$TaskId', '$Tag4')");
-		}
+		
+		mysqli_query($db,"INSERT INTO flag(TaskId, IsFlagged) Values ('$TaskId', 'false')");
+		mysqli_query($db,"INSERT INTO statustable(TaskId) Values ('$TaskId')");
+		
+		$userId = $_SESSION['id'];
+		mysqli_query($db,"INSERT INTO owned(UserId, TaskId) Values ('$userId', '$TaskId')");
 				
 		//header("location: index.php");
 	}
+	
 
 ?>
 
@@ -158,5 +185,3 @@
 
 </body>
 </html>
-		
-	
