@@ -12,10 +12,10 @@
 		
 		
 		if($_SESSION['id']){
-
+			
 			echo "Welcome ";
 			echo  $fname ;
-		
+			echo $id;
 		}
 		else{
 			echo "welcome but id not specified";
@@ -23,4 +23,15 @@
 		
 
 ?>
+<! DOCTYPE HTML>
+<body>
+<div>
+						<div class="row">
+							<div class="12u">
 
+							<input type="button" value="Create Task " onclick="window.open('createTask.php', '_self')">
+			
+							</div>
+						</div>
+</body>
+</html>
