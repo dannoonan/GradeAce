@@ -10,10 +10,13 @@
 		$Email=($_POST['Email']);
 		$Course=($_POST['Course']);
 		$Password=($_POST['Password']);
-			
-		$sql = "INSERT INTO users(FirstName, LastName, Email, Course, Password) VALUES('$FirstName', '$LastName', '$Email', '$Course', '$Password')";
+		
+		
+		$sql = "CALL addUser('$FirstName', '$LastName', '$Email', '$Course', '$Password')";
 		mysqli_query($db, $sql);
-		header("location: index.php");
+		
+		  header("location: index.php");
+		
 	}
 
 ?>
