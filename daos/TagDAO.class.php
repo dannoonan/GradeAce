@@ -1,0 +1,56 @@
+<?php
+ require_once __DIR__ . "/.../models/Tag.class.php";
+ require_once __DIR__ . "/.../utils/MySQLi.class.php";
+ require_once __DIR__ . "/.../utils/ModelFactory.class.php";
+
+ 
+ Class TagDAO {
+	 
+	 
+	public static function getTag($TagId){
+		 
+		$tag = null;
+		 
+		if(!is_null($TagId)){
+			/*Creates args to pass to the MySQLiAccess class's call method, thereby using an SQL statment
+			to retrieve the desired tag from the database*/
+			$args = $TagId;
+			
+			//The results from the database, after being retrieved by the MySQLiAccess call method, are stored in the variable '$result'
+			$result = MySQLiAccess::call("getTag", $args);
+			
+			//If there is a result, the buildModel method is called from the ModelFactory class to construct a new Task object
+            if ($result) {
+                $tag = ModelFactory::buildModel("Tag", $result[0]);
+            }
+        }
+        return $tag;
+			 
+	}
+		 
+	//Inserts a new tag into the database
+	private static function insert(&$tag) {
+		//A string, $args, is created to hold the attributes of the tag object that will be inserted into the database
+		$args = MySQLiAccess::prepareString($tag->getTagId()).", ".
+		MySQLiAccess::prepareString($tag->getTag());
+		
+		$result = MySQLiAccess::call("addTag", $args);
+        if ($result) {
+            $tag = ModelFactory::buildModel("Tag", $result[0]);
+        } else {
+            $tag = null;
+        }
+    }	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+ }
+
+
+?>
