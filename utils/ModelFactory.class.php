@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__."//../models/Item.class.php";
-require_once __DIR__."//../models/User.class.php";
-require_once __DIR__."//../models/Tag.class.php";
+require_once __DIR__.'//../models/Task.class.php';
+require_once __DIR__.'//../models/User.class.php';
+require_once __DIR__.'//../models/Tag.class.php';
 
 class ModelFactory {
 	//The public function is the interaction point between the other classes and the ModelFactory class, it provides an interface between

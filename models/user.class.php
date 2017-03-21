@@ -1,4 +1,6 @@
 <?php
+
+Class User{
 	private $UserId;
 	private $FirstName;
 	private $LastName;
@@ -22,4 +24,6 @@
 	function setReputation($Reputation) { $this->Reputation = $Reputation; }
 	function getReputation() { return $this->Reputation; }
 	
+}
+
 ?>

@@ -1,5 +1,6 @@
 <?php
 
+Class Task{
 	private $TaskId;
 	private $Title;
 	private $TaskType;
@@ -11,7 +12,7 @@
 	private $ClaimDate;
 	private $CompleteDate;
 	private $Notes;
-	private $;
+
 
 	function setTaskId($TaskId) { $this->TaskId = $TaskId; }
 	function getTaskId() { return $this->TaskId; }
@@ -35,7 +36,6 @@
 	function getCompleteDate() { return $this->CompleteDate; }
 	function setNotes($Notes) { $this->Notes = $Notes; }
 	function getNotes() { return $this->Notes; }
-	function set($) { $this-> = $; }
-	function get() { return $this->; }
+}
 
 ?>

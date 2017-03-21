@@ -1,5 +1,6 @@
-<?php 
-	include  "login.php"; 
+<?php
+    require_once __DIR__.'./daos/TaskDAO.class.php';
+	require_once __DIR__.'./daos/TagDAO.class.php';
 ?>
 <!DOCTYPE  html>
 <html>
@@ -17,30 +18,39 @@
 		<!-- Nav -->
 			<nav id="nav">
 				<ul class="container">
-					<li><a href="#login">Login</a></li>
-					<li><a href="#register">Register</a></li>
-					<li><a href="#portfolio">About</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="./index.php">Home</a></li>
+					<?php 
+						if (isset($_SESSION["userId"]) && $_SESSION["userId"] != ''){ 
+						//printf("<li><a href=\"./createTask.php\" class=\"\">Sell</a></li>");
+						printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
+						} else {
+							printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
+						}
+					?>
 				</ul>
 			</nav>
 
 		<!-- Home -->
 			<div class="wrapper style1 first">
-				<article class="container" id="login">
+				<article class="container" id="main">
 					<div class="row">
-						
 						<div class="8u 12u(mobile)">
 							<header>
 								<h1>Welcome to <strong>GradeAce</strong>.</h1>
 							</header>
-							<form action="login.php" method="post">
-							<input type="text" name="email" placeholder="Please enter your email address">
-							<input type="text" name="pass" placeholder="Please enter your password">
-
-							<input type="submit" value="Login" name = "login_btn">
-							</form>
-
-
+							<?php
+								$taskDao = new TaskDAO();
+								try {
+									$tasks = $taskDao->getAllTasks();
+								} catch (Exception $e) {
+									$tasks = null;
+								}
+								if (!is_null($tasks)) {
+									foreach ($tasks as $task) {
+										printf("<h2> <a href=\"./task.php?id=%s\"> %s  </h2>", $task->getTaskd(), $task->getTitle());
+									}
+								}
+							?>
 						</div>
 					</div>
 				</article>

@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__."/../models/User.class.php";
-require_once __DIR__."/../utils/ModelFactory.class.php";
-require_once __DIR__."/../utils/MySQLiAccess.class.php";
+require_once __DIR__.'/../models/User.class.php';
+require_once __DIR__.'/../utils/ModelFactory.class.php';
+require_once __DIR__.'/../utils/MySQLiAccess.class.php';
 
 class UserDAO {
     public static function getUser($UserId, $Email) {
