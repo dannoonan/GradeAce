@@ -25,17 +25,17 @@ DROP PROCEDURE IF EXISTS `addTask`$$
 CREATE DEFINER=`Dan`@`localhost` PROCEDURE `addTask`(IN `Title` VARCHAR(128), IN `TaskType` VARCHAR(128), IN `Description` VARCHAR(128), IN `Pages` INT(5), IN `Words` INT(10), IN `FileFormat` CHAR(128), IN `FilePath` VARCHAR(128), IN `ClaimDate` DATETIME, IN `CompleteDate` DATETIME, IN `Notes` VARCHAR(300))
     READS SQL DATA
 BEGIN
-INSERT INTO users(title, tasktype, description, pages, words, fileformat, filepath, claimdate, completedate, notes) VALUES (title, tasktype, description, pages, words, fileformat, filepath, claimdate, completedate, notes);
+INSERT INTO `tasks`(TaskId, Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate, Notes) VALUES (NULL, Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate, Notes);
 END$$
 
 -- --------------------------------------------------------
 
 
 DROP PROCEDURE IF EXISTS `banUser`$$
-CREATE DEFINER=`Dan`@`localhost` PROCEDURE `banUser`(IN `userID` INT(10), IN `isBanned` TINYINT(1))
+CREATE DEFINER=`Dan`@`localhost` PROCEDURE `banUser`(IN `UserId` INT(10), IN `IsBanned` TINYINT(1))
     READS SQL DATA
 BEGIN
-INSERT INTO users(userid, isbanned) VALUES (userid, '1');
+INSERT INTO `users`(UserId, IsBanned) VALUES (UserId, '1');
 END$$
 
 -- --------------------------------------------------------
@@ -44,26 +44,26 @@ DROP PROCEDURE IF EXISTS `addTag`$$
 CREATE DEFINER=`Dan`@`localhost` PROCEDURE `addTag`(IN `tag` VARCHAR(128))
     READS SQL DATA
 BEGIN
-INSERT INTO users(tag) VALUES (tag);
+INSERT INTO `tags`(tag) VALUES (tag);
 END$$
 
 -- --------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS `addUser`$$
-CREATE DEFINER=`Dan`@`localhost` PROCEDURE `addUser`(IN `firstname` VARCHAR(128), IN `lastname` VARCHAR(128), IN `email` VARCHAR(128), IN `course` VARCHAR(128), IN `password` VARCHAR(128))
+CREATE DEFINER=`Dan`@`localhost` PROCEDURE `addUser`(IN `FirstName` VARCHAR(128), IN `LastName` VARCHAR(128), IN `Email` VARCHAR(128), IN `Course` VARCHAR(128), IN `Password` VARCHAR(128))
     READS SQL DATA
 BEGIN
-INSERT INTO users(firstname, lastname, email, course, password) VALUES (firstname, lastname, email, course, password);
+INSERT INTO `users`(UserId, FirstName, LastName, Email, Course, Password) VALUES (NULL, FirstName, Lastname, Email, Course, Password);
 END$$
 
 -- --------------------------------------------------------
 
 
 DROP PROCEDURE IF EXISTS `flagTask`$$
-CREATE DEFINER=`Dan`@`localhost` PROCEDURE `flagTask`(IN `taskid` INT(10), IN `isflagged` TINYINT(1))
+CREATE DEFINER=`Dan`@`localhost` PROCEDURE `flagTask`(IN `TaskId` INT(10), IN `IsFlagged` TINYINT(1))
     READS SQL DATA
 BEGIN
-INSERT INTO users(taskid, isflagged) VALUES (taskid, '1');
+INSERT INTO `flag`(TaskId, IsFlagged) VALUES (TaskId, '1');
 END$$
 
 -- --------------------------------------------------------
@@ -96,7 +96,7 @@ BEGIN
 	
 	
 	select t.TaskId, t.Title, t.TaskType, t.Description, t.Words, t.Pages, t.FileFormat, t.FilePath, t.ClaimDate, t.CompleteDate ,t.Notes  
-        from Tasks t  
+        from tasks t  
         where   (TaskId is null or t.TaskId = TaskId);
 
 END$$
