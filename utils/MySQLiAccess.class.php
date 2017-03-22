@@ -25,8 +25,8 @@ class MySQLiAccess {
         $dbName = "gradeace";	//Settings::get('database.database');
         $server = "localhost";  //Settings::get('database.server');
 		//Username can be changed accordingly
-        $username = "Dan";	    //Settings::get('database.username');
-        $password = "password";	        //Settingstings::get('database.password');
+        $username = "root";	    //Settings::get('database.username');
+        $password = "";	        //Settingstings::get('database.password');
 		$conn = new mysqli($server, $username, $password, $dbName);
 		
 		unset($password); unset($dbName); unset($server);  unset($username);
@@ -47,7 +47,7 @@ class MySQLiAccess {
         if (!is_array($procArgs)) {
             $sql = "CALL $procedure ($procArgs)";
         } else {
-            $sql = "CALL $procedure (".implode(', ', $procArgs).")";
+            $sql = "CALL $procedure ".implode(', ',$procArgs);
         }
         
         if ((empty($sql)) || (empty($db->connection))) {
@@ -58,17 +58,20 @@ class MySQLiAccess {
         $conn = $db->connection;
         $data = array();
         if ($result = $conn->query($sql)) {
-            foreach ($result as $row) {
+            foreach ((array)$result as $row) {
                 $data[] = $row;
             }
         }
+		
         return empty($data) ? false : $data;
+
     }
 	
 	public static function prepareString($string) {
 		$db = MySQLiAccess::getInstance();
 		$conn = $db->connection;
-		return $conn->real_escape_string($string);
+		$x="'".$string."'";
+		return $x;
 	}
 } 
 ?>

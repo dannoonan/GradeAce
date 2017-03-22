@@ -7,8 +7,7 @@ class UserDAO {
     public static function getUser($UserId, $Email) {
         $user = null;
         if (!is_null($UserId) || !is_null($Email)) {
-            $args = $UserId.", ".
-			MySQLiAccess::prepareString($Email);
+            $args = $UserId.", ".MySQLiAccess::prepareString($Email);
             $result = MySQLiAccess::call("getUser", $args);
             if ($result) {
                 $user = ModelFactory::buildModel("User", $result[0]);
@@ -18,19 +17,25 @@ class UserDAO {
     }
 	
 	public static function save($user) {
-        if (is_null($user->getUserId())) {
+       if (is_null($user->getUserId())) {
             self::insert($user);
-        }/*else {
+       }/*else {
             self::update($user);
         }*/
         return $user;
     }
 	
 	private static function insert(&$user) {
-		$args = MySQLiAccess::prepareString($user->getEmail()).", ".
+		$siteSalt  = "gradeace";
+		$saltedHash = hash('sha256', $user->getPassword().$siteSalt);
+		
+		$args = 
 		MySQLiAccess::prepareString($user->getFirstName()).", ".
 		MySQLiAccess::prepareString($user->getLastName()).", ".
-		MySQLiAccess::prepareString($user->getPassword());
+		MySQLiAccess::prepareString($user->getEmail()).", ".
+		MySQLiAccess::prepareString($user->getCourse()).", ".
+		MySQLiAccess::prepareString($saltedHash);
+
 		$result = MySQLiAccess::call("addUser", $args);
         if ($result) {
             $user = ModelFactory::buildModel("User", $result[0]);
@@ -39,13 +44,15 @@ class UserDAO {
         }
     }
 	
-	public static function login($Email, $Password) {
+	public static function login($Email, $password) {
 		$user = self::getUser("''",$Email);
 		if (!is_null($user)) {
 			$id = $user->getUserId();
 			$passwordHash = $user->getPassword();
 			$siteSalt  = "gradeace";
 			$saltedHash = hash('sha256', $password.$siteSalt);
+			echo $passwordHash;
+
 			if ($passwordHash == $saltedHash) {
 				return $user;
 			}

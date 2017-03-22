@@ -45,6 +45,7 @@
 								require_once('load.php');
 								
 								if (isset($_POST['register_btn'])){
+									
 									$FirstName=($_POST['FirstName']);
 									$LastName=($_POST['LastName']);
 									$Email=($_POST['Email']);
@@ -55,6 +56,7 @@
 									$userDAO = new UserDAO();
 									$user = $userDAO->getUser('', $Email);
 									
+									
 									if($Password == $Password2){
 										 if (!is_null($user)) { 
 														printf("<h2> There is already an account with that email address</h2>");
@@ -63,7 +65,7 @@
 														$siteSalt  = "gradeace";
 														$saltedHash = hash('sha256', $Password.$siteSalt);
 														
-														$user = new User();
+														$user = new user();
 														$user->setFirstName($FirstName);
 														$user->setLastName($LastName);
 														$user->setEmail($Email);
@@ -73,7 +75,6 @@
 														
 														if (!is_null($user)) {
 																printf("<h2> Welcome %s! Please <a href=\"./login.php\"> login </a> to proceed. </h2>", $user->getFirstName());
-																$userDAO->logout();
 														}
 														
 														
@@ -82,12 +83,17 @@
 										
 									}else{
 										printf( "<h2>Passwords don't match</h2>");
-									}	
-								}
+									}
+								}									
+								
 
 							?>
+							
 							<?php 
-								if (!isset($_POST) || count($_POST) == 0) { ?>
+								if (!isset($_POST) || count($_POST) == 0) { 
+							?>
+								
+								
 								<form action="Register.php" method="post">
 								
 								<input type="text" name="FirstName" placeholder="Please enter your first name">
@@ -107,7 +113,10 @@
 								<input type="submit" value="Register" name="register_btn">
 								<h4>(Once Registered please log in)</h4>
 								</form>
-							<?php }>
+								
+								<?php 
+								}
+								?>
 
 						</div>
 					</div>
@@ -136,5 +145,3 @@
 
 </body>
 </html>
-		
-	

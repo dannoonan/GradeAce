@@ -41,12 +41,17 @@
 							
 							try{
 								//remember to strip tags and slashes 
-								$email = $_POST['email'];
+								$email = $_POST["email"];
 								$password = $_POST["pass"];
 								
 								$userDAO = new UserDAO();
 								
 								$user= $userDAO->login($email, $password);
+								
+								if($user)
+								{
+									$userDAO->logout();
+								}
 								
 								 if (!is_null($user)) {
 									$_SESSION['UserId'] = $user->getUserId(); 

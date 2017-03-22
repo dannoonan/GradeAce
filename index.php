@@ -39,6 +39,7 @@
 								<h1>Welcome to <strong>GradeAce</strong>.</h1>
 							</header>
 							<?php
+							if (isset($_SESSION["userId"]) && $_SESSION["userId"] != ''){
 								$taskDao = new TaskDAO();
 								try {
 									$tasks = $taskDao->getAllTasks();
@@ -50,6 +51,7 @@
 										printf("<h2> <a href=\"./task.php?id=%s\"> %s  </h2>", $task->getTaskd(), $task->getTitle());
 									}
 								}
+							}
 							?>
 						</div>
 					</div>
