@@ -9,7 +9,7 @@ SET time_zone = "+00:00";
 
 
 --
--- Database: `buynsell`
+-- Database creation
 --
 
 CREATE DATABASE IF NOT EXISTS `gradeace` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
