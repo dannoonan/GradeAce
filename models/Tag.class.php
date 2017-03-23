@@ -1,6 +1,6 @@
 <?php
 	
-Class Tag{
+class Tag{
 		
 		//Data fields for the Tag object
 		private $TagId;
