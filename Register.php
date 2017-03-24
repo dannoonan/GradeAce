@@ -34,10 +34,10 @@
 
 		<!-- Home -->
 			<div class="wrapper style1 first">
-				<article class="container" id="login">
+				<article class="container 75%" id="login">
 					<div class="row">
 						
-						<div class="8u 12u(mobile)">
+						<div class="11u 12u(mobile)">
 							<header>
 							<h1>Welcome to <strong>GradeAce</strong>.</h1>
 							<?php 
@@ -116,8 +116,8 @@
 									<option value="Science">Science</option>
 									<option value="Arts">Arts</option>
 								</select>
-								<input type="text" name="Password" placeholder="Please enter your password">
-								<input type="text" name="Password2" placeholder="Please enter your password again">
+								<input type="password" name="Password" placeholder="Please enter your password">
+								<input type="password" name="Password2" placeholder="Please enter your password again">
 
 								<input type="submit" value="Register" name="register_btn">
 								<h4>(Once Registered please log in)</h4>

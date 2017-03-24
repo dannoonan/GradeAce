@@ -37,7 +37,7 @@
 
 		<!-- Home -->
 			<div class="wrapper style1 first">
-				<article class="container" id="login">
+				<article class="container 75%" id="login">
 					<div class="row">
 						
 					<?php
@@ -74,13 +74,13 @@
 							}
 						}
 					?>
-						<div class="8u 12u(mobile)">
+						<div class="11u 12u(mobile)">
 							<header>
 								<h1>Welcome to <strong>GradeAce</strong>.</h1>
 							</header>
 							<form action="login.php" method="post">
 							<input type="text" name="email" placeholder="Please enter your email address">
-							<input type="text" name="pass" placeholder="Please enter your password">
+							<input type="password" name="pass" placeholder="Please enter your password">
 
 							<input type="submit" value="Login" name = "login_btn">
 							</form>

@@ -32,9 +32,9 @@
 
 		<!-- Home -->
 			<div class="wrapper style1 first">
-				<article class="container" id="login">
+				<article class="container 75%" id="login">
 					<div class="row">
-						<div class="8u 12u(mobile)">
+						<div class="11u 12u(mobile)">
 							<header>
 								<?php
                      

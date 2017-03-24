@@ -37,9 +37,9 @@
 
 		<!-- Home -->
 			<div class="wrapper style1 first">
-				<article class="container" id="main">
+				<article class="container 75%" id="main">
 					<div class="row">
-						<div class="8u 12u(mobile)">
+						<div class="11u 12u(mobile)">
 							<header>
 							<?php
 								if(isset($_SESSION['UserName'])){
