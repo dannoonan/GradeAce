@@ -42,6 +42,8 @@
 								$userDao->logout();
 								?>
 								<h1>You have been logged out.</h1>
+								
+								<a href="./login.php" class="button small">Login</a>
 							</header>
 						</div>
 					</div>

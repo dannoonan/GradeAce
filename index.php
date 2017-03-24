@@ -46,15 +46,21 @@
 								printf("<h1>Welcome to <strong>GradeAce</strong>, %s</h1>", $_SESSION['UserName']);
 								}else{
 									printf("<h1>Welcome to <strong>GradeAce</strong></h1>");
+									?>
+									
+									<a href="./login.php" class="button small">Login</a>
+								<?php
 								}
 								
 							?>
 								
 							</header>
 							<?php
+
 								
 							
 							if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){
+
 								$taskDao = new TaskDAO();
 								try {
 									

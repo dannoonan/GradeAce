@@ -41,16 +41,7 @@
 					<div class="row">
 						<div class="8u 12u(mobile)">
 							<header>
-							<?php
-								if(isset($_SESSION['UserName'])){
-								printf("<h1><strong>GradeAce</strong></h1>");
-								printf("<p>Displaying tasks available to be claimed by %s<p>", $_SESSION['UserName']);
-								}else{
-									printf("<h1>Welcome to <strong>GradeAce</strong></h1>");
-								}
-								
-							?>
-								
+							
 							</header>
 							<?php
 								
@@ -67,7 +58,7 @@
 								}
 								
 								 if (!is_null($task) ){
-										printf("<h2> %s </h2> <p> %s </p>\n", $task->getTitle(), $task->getDescription());
+										printf("<h1> %s </h1> <h2> %s </h2>\n", $task->getTitle(), $task->getDescription());
 								} else {
 										printf("Task not found.");
 								}
