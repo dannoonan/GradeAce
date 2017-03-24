@@ -25,8 +25,8 @@ class MySQLiAccess {
         $dbName = "gradeace";	//Settings::get('database.database');
         $server = "localhost";  //Settings::get('database.server');
 		//Username can be changed accordingly
-        $username = "Dan";	    //Settings::get('database.username');
-        $password = "password";	        //Settingstings::get('database.password');
+        $username = "root";	    //Settings::get('database.username');
+        $password = "";	        //Settingstings::get('database.password');
 		$conn = new mysqli($server, $username, $password, $dbName);
 		
 		unset($password); unset($dbName); unset($server);  unset($username);
@@ -44,11 +44,13 @@ class MySQLiAccess {
 	public static function call($procedure, $procArgs) {
         $db = MySQLiAccess::getInstance();
         
-        if (!is_array($procArgs)) {
+        if (!is_array($procArgs)&& !is_null($procArgs)) {
             $sql = "CALL $procedure ($procArgs)";
-        } else {
-            $sql = "CALL $procedure (".implode(', ', $procArgs).")";
-        }
+        } else if (!is_null($procArgs)) {
+            $sql = "CALL $procedure ".implode(', ',$procArgs);
+        }else{
+			$sql = "CALL $procedure";
+		}
         
         if ((empty($sql)) || (empty($db->connection))) {
             $db->error_msg = "\r\n" . "SQL Statement or connect is <code>null</code>" . date('H:i:s');
@@ -57,18 +59,27 @@ class MySQLiAccess {
         
         $conn = $db->connection;
         $data = array();
+		$newResult = array();
+		
         if ($result = $conn->query($sql)) {
-            foreach ($result as $row) {
-                $data[] = $row;
-            }
+			
+			if($result){
+				
+				$newResult = $result;
+			}
         }
-        return empty($data) ? false : $data;
+		 return empty($newResult) ? false : $newResult;
+		
+		
+		//return empty($data) ? false : $data;
+
     }
 	
 	public static function prepareString($string) {
 		$db = MySQLiAccess::getInstance();
 		$conn = $db->connection;
-		return $conn->real_escape_string($string);
+		$x="'".$string."'";
+		return $x;
 	}
 } 
 ?>

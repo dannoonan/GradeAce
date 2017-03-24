@@ -2,7 +2,7 @@
     require_once __DIR__.'/daos/UserDAO.class.php'; 
 ?>
 
-<!DOCTYPE  html>
+<html>
 <html>
 <head>
 		<meta name="viewport" content="initial-scale=1"><meta name="viewport" content="user-scalable=yes,width=device-width,initial-scale=1"><meta name="viewport" content="initial-scale=1"><meta name="viewport" content="user-scalable=yes,width=device-width,initial-scale=1"><title>GradeAce</title>
@@ -20,12 +20,17 @@
 				<ul class="container">
 					<li><a href="./index.php">Home</a></li>
 					<?php 
-                if (isset($_SESSION["userId"]) && $_SESSION["userId"] != ''){ 
-                    //printf("<li><a href=\"./createTask.php\" class=\"\">Sell</a></li>");
-                    printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
-                } else {
-                    printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
-                }
+					
+					 if (!isset ($_SESSION)) {
+						session_start();
+					}
+					
+					if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){ 
+						//printf("<li><a href=\"./createTask.php\" class=\"\">Sell</a></li>");
+						printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
+					} else {
+						printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
+					}
           ?>
 				</ul>
 			</nav>
@@ -36,20 +41,30 @@
 					<div class="row">
 						
 					<?php
-						session_start();
+						
 						if(isset($_POST['login_btn'])){
 							
 							try{
 								//remember to strip tags and slashes 
-								$email = $_POST['email'];
+								$email = $_POST["email"];
 								$password = $_POST["pass"];
 								
 								$userDAO = new UserDAO();
-								
 								$user= $userDAO->login($email, $password);
 								
+								if($user)
+								{
+									
+									
+									//Not Neccessary!!!!!
+									//$userDAO->logout(); 
+								}
+								
 								 if (!is_null($user)) {
+									
+									
 									$_SESSION['UserId'] = $user->getUserId(); 
+									$_SESSION['UserName'] = $user->getFirstName();
 									header("Location:./index.php");
 								}else {
 									printf("<h2> Password incorrect or account not found. </h2>");

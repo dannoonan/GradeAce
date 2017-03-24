@@ -12,6 +12,7 @@
 		$task = null;
 		 
 		if(!is_null($TaskId)){
+			
 			/*Creates args to pass to the MySQLiAccess class's call method, thereby using an SQL statment
 			to retrieve the desired task from the database*/
 			$args = $TaskId;
@@ -19,9 +20,11 @@
 			//The results from the database, after being retrieved by the MySQLiAccess call method, are stored in the variable '$result'
 			$result = MySQLiAccess::call("getTask", $args);
 			
+			
 			//If there is a result, the buildModel method is called from the ModelFactory class to construct a new Task object
             if ($result) {
-                $task = ModelFactory::buildModel("Task", $result[0]);
+				$resultArray = $result->fetch_array();
+                $task = ModelFactory::buildModel("Task", $resultArray);
             }
         }
         return $task;
@@ -29,12 +32,19 @@
 	}
 	
 	 public static function getAllTasks() {
-        $args = "";
+        $args = null;
+		
 	    $result = MySQLiAccess::call("getAllTasks", $args);
         $ret = null;
         if ($result) {
+			$result;
+			
             $ret = array();
+			
+			
             foreach ($result as $row) {
+				
+				
                  $ret[] = ModelFactory::buildModel("Task", $row);
             }
         }

@@ -29,17 +29,21 @@ class ModelFactory {
 
 	private static function createUser($modelData) {
 		//User object is created
+		
 		$retVal = new User();
 		//If the UserId field is not set, then the value is set to that of the same field in the modelData
 		if (isset($modelData['UserId'])) {
+			
 			$retVal ->setUserId($modelData["UserId"]);
 		}
 		//The same goes for the FirstName field, and all subsequent fields 
 		if (isset($modelData['FirstName'])) {
+			
 			$retVal ->setFirstName($modelData["FirstName"]);
 		}
 		
 		if (isset($modelData['LastName'])) {
+			
 			$retVal ->setLastName($modelData["LastName"]);
 		}	
 

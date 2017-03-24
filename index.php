@@ -2,7 +2,7 @@
     require_once __DIR__.'./daos/TaskDAO.class.php';
 	require_once __DIR__.'./daos/TagDAO.class.php';
 ?>
-<!DOCTYPE  html>
+<html>
 <html>
 <head>
 		<meta name="viewport" content="initial-scale=1"><meta name="viewport" content="user-scalable=yes,width=device-width,initial-scale=1"><meta name="viewport" content="initial-scale=1"><meta name="viewport" content="user-scalable=yes,width=device-width,initial-scale=1"><title>GradeAce</title>
@@ -20,9 +20,14 @@
 				<ul class="container">
 					<li><a href="./index.php">Home</a></li>
 					<?php 
-						if (isset($_SESSION["userId"]) && $_SESSION["userId"] != ''){ 
+						if (!isset ($_SESSION)) {
+							session_start();
+						}
+						
+						if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){ 
 						//printf("<li><a href=\"./createTask.php\" class=\"\">Sell</a></li>");
 						printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
+						printf("<li><a href=#>Create a Task</a></li>");
 						} else {
 							printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
 						}
@@ -36,20 +41,34 @@
 					<div class="row">
 						<div class="8u 12u(mobile)">
 							<header>
-								<h1>Welcome to <strong>GradeAce</strong>.</h1>
+							<?php
+								if(isset($_SESSION['UserName'])){
+								printf("<h1>Welcome to <strong>GradeAce</strong>, %s</h1>", $_SESSION['UserName']);
+								}else{
+									printf("<h1>Welcome to <strong>GradeAce</strong></h1>");
+								}
+								
+							?>
+								
 							</header>
 							<?php
+								
+							
+							if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){
 								$taskDao = new TaskDAO();
 								try {
-									$tasks = $taskDao->getAllTasks();
+									
+									$tasks = $taskDao->getAllTasks();	
+									
 								} catch (Exception $e) {
 									$tasks = null;
 								}
 								if (!is_null($tasks)) {
 									foreach ($tasks as $task) {
-										printf("<h2> <a href=\"./task.php?id=%s\"> %s  </h2>", $task->getTaskd(), $task->getTitle());
+										printf("<h2> <a href=\"./taskDisplay.php?id=%s\"> %s  -  %s</h2>", $task->getTaskId(), $task->getTitle(), $task->getTaskType());
 									}
 								}
+							}
 							?>
 						</div>
 					</div>
@@ -65,20 +84,24 @@
 		
 			<div class="wrapper style4" id ="register">
 				<article id="contact" class="container 75%">
-					<header>
-						<h2>Get the right advice when you need it</h2>
-						<p>Register an account with us today</p>
-					</header>
-					<div>
-						<div class="row">
-							<div class="12u">
+				<?php
+					if(!isset($_SESSION['UserId'])){ ?>
+						<header>
+							<h2>Get the right advice when you need it</h2>
+							<p>Register an account with us today</p>
+						</header>
+						<div>
+							<div class="row">
+								<div class="12u">
 
-							<input type="button" value="Register Now" onclick="window.open('Register.php', '_self')">
-			
+								<input type="button" value="Register Now" onclick="window.open('Register.php', '_self')">
+				
+								</div>
 							</div>
 						</div>
-						
-					</div>
+				<?php		
+					}
+				?>
 					<footer>
 						<ul id="copyright">
 							<li>© Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>

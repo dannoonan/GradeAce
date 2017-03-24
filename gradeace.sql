@@ -9,7 +9,7 @@ SET time_zone = "+00:00";
 
 
 --
--- Database: `buynsell`
+-- Database: `gradeace`
 --
 
 CREATE DATABASE IF NOT EXISTS `gradeace` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -22,7 +22,7 @@ USE `gradeace`;
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `addTask`$$
-CREATE DEFINER=`Dan`@`localhost` PROCEDURE `addTask`(IN `Title` VARCHAR(128), IN `TaskType` VARCHAR(128), IN `Description` VARCHAR(128), IN `Pages` INT(5), IN `Words` INT(10), IN `FileFormat` CHAR(128), IN `FilePath` VARCHAR(128), IN `ClaimDate` DATETIME, IN `CompleteDate` DATETIME, IN `Notes` VARCHAR(300))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addTask`(IN `Title` VARCHAR(128), IN `TaskType` VARCHAR(128), IN `Description` VARCHAR(128), IN `Pages` INT(5), IN `Words` INT(10), IN `FileFormat` CHAR(128), IN `FilePath` VARCHAR(128), IN `ClaimDate` DATETIME, IN `CompleteDate` DATETIME, IN `Notes` VARCHAR(300))
     READS SQL DATA
 BEGIN
 INSERT INTO `tasks`(TaskId, Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate, Notes) VALUES (NULL, Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate, Notes);
@@ -32,7 +32,7 @@ END$$
 
 
 DROP PROCEDURE IF EXISTS `banUser`$$
-CREATE DEFINER=`Dan`@`localhost` PROCEDURE `banUser`(IN `UserId` INT(10), IN `IsBanned` TINYINT(1))
+CREATE DEFINER=`root` PROCEDURE `banUser`(IN `UserId` INT(10), IN `IsBanned` TINYINT(1))
     READS SQL DATA
 BEGIN
 INSERT INTO `users`(UserId, IsBanned) VALUES (UserId, '1');
@@ -41,7 +41,7 @@ END$$
 -- --------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS `addTag`$$
-CREATE DEFINER=`Dan`@`localhost` PROCEDURE `addTag`(IN `tag` VARCHAR(128))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addTag`(IN `tag` VARCHAR(128))
     READS SQL DATA
 BEGIN
 INSERT INTO `tags`(tag) VALUES (tag);
@@ -50,17 +50,17 @@ END$$
 -- --------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS `addUser`$$
-CREATE DEFINER=`Dan`@`localhost` PROCEDURE `addUser`(IN `FirstName` VARCHAR(128), IN `LastName` VARCHAR(128), IN `Email` VARCHAR(128), IN `Course` VARCHAR(128), IN `Password` VARCHAR(128))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addUser`(IN `FirstName` VARCHAR(128), IN `LastName` VARCHAR(128), IN `Email` VARCHAR(128), IN `Course` VARCHAR(128), IN `Password` VARCHAR(128))
     READS SQL DATA
 BEGIN
-INSERT INTO `users`(UserId, FirstName, LastName, Email, Course, Password) VALUES (NULL, FirstName, Lastname, Email, Course, Password);
+INSERT INTO `Users`(FirstName, LastName, Email, Course, Password) VALUES (FirstName, Lastname, Email, Course, Password);
 END$$
 
 -- --------------------------------------------------------
 
 
 DROP PROCEDURE IF EXISTS `flagTask`$$
-CREATE DEFINER=`Dan`@`localhost` PROCEDURE `flagTask`(IN `TaskId` INT(10), IN `IsFlagged` TINYINT(1))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `flagTask`(IN `TaskId` INT(10), IN `IsFlagged` TINYINT(1))
     READS SQL DATA
 BEGIN
 INSERT INTO `flag`(TaskId, IsFlagged) VALUES (TaskId, '1');
@@ -69,7 +69,7 @@ END$$
 -- --------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS `getUser`$$
-CREATE DEFINER=`Dan`@`localhost` PROCEDURE `getUser`( IN `UserId` VARCHAR(128), IN `Email` VARCHAR(128))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUser`( IN `UserId` VARCHAR(128), IN `Email` VARCHAR(128))
     READS SQL DATA
 BEGIN
 
@@ -78,7 +78,7 @@ BEGIN
 	if Email='' then set Email=null;end if;
 	
 	select u.UserId, u.Email, u.`FirstName`, u.`LastName`, u.Password  
-        from users u  
+        from Users u  
         where   (UserId is null or u.UserId = UserId)
             and (Email is null or (LOWER(u.Email) = LOWER(Email)));
 
@@ -87,7 +87,7 @@ END$$
 -- --------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS `getTask`$$
-CREATE DEFINER=`Dan`@`localhost` PROCEDURE `getTask`( IN `TaskId` VARCHAR(128))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getTask`( IN `TaskId` VARCHAR(128))
     READS SQL DATA
 BEGIN
 
@@ -99,6 +99,18 @@ BEGIN
         from tasks t  
         where   (TaskId is null or t.TaskId = TaskId);
 
+END$$
+
+-- --------------------------------------------------------
+
+
+DROP PROCEDURE IF EXISTS `getAllTasks`$$
+CREATE DEFINER = `root`@`localhost` PROCEDURE `getAllTasks` ()
+	READS SQL DATA
+BEGIN
+
+		select * from Tasks;
+		
 END$$
 
 DELIMITER ;

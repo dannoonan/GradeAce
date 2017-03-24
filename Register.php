@@ -18,8 +18,12 @@
 				<ul class="container">
 					<li><a href="./index.php">Home</a></li>
 					<?php 
-                if (isset($_SESSION["userId"]) && $_SESSION["userId"] != ''){ 
-                    //printf("<li><a href=\"./createTask.php\" class=\"\">Sell</a></li>");
+					 if (!isset ($_SESSION)) {
+						session_start();
+					}
+					
+                if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){ 
+                    //printf("<li><a href=\"./createTask.php\" class=\"\">Create Task</a></li>");
                     printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
                 } else {
                     printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
@@ -35,16 +39,22 @@
 						
 						<div class="8u 12u(mobile)">
 							<header>
-								<h1>Welcome to <strong>GradeAce</strong>.</h1>
-								<h2>Create an account by filling in the details below.</h2>
+							<h1>Welcome to <strong>GradeAce</strong>.</h1>
+							<?php 
+								if (!isset($_POST) || count($_POST) == 0) { 
+									printf("<h2>Create an account by filling in the details below.</h2>");
+									
+								}
+								?>
 							</header>
 							<?php
 
-								session_start();
+								
 								
 								require_once('load.php');
 								
 								if (isset($_POST['register_btn'])){
+									
 									$FirstName=($_POST['FirstName']);
 									$LastName=($_POST['LastName']);
 									$Email=($_POST['Email']);
@@ -54,6 +64,7 @@
 									
 									$userDAO = new UserDAO();
 									$user = $userDAO->getUser('', $Email);
+									
 									
 									if($Password == $Password2){
 										 if (!is_null($user)) { 
@@ -73,7 +84,6 @@
 														
 														if (!is_null($user)) {
 																printf("<h2> Welcome %s! Please <a href=\"./login.php\"> login </a> to proceed. </h2>", $user->getFirstName());
-																$userDAO->logout();
 														}
 														
 														
@@ -82,12 +92,17 @@
 										
 									}else{
 										printf( "<h2>Passwords don't match</h2>");
-									}	
-								}
+									}
+								}									
+								
 
 							?>
+							
 							<?php 
-								if (!isset($_POST) || count($_POST) == 0) { ?>
+								if (!isset($_POST) || count($_POST) == 0) { 
+							?>
+								
+								
 								<form action="Register.php" method="post">
 								
 								<input type="text" name="FirstName" placeholder="Please enter your first name">
@@ -107,7 +122,10 @@
 								<input type="submit" value="Register" name="register_btn">
 								<h4>(Once Registered please log in)</h4>
 								</form>
-							<?php }>
+								
+								<?php 
+								}
+								?>
 
 						</div>
 					</div>
@@ -136,5 +154,3 @@
 
 </body>
 </html>
-		
-	
