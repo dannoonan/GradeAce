@@ -43,7 +43,9 @@ class MySQLiAccess {
 	
 	public static function call($procedure, $procArgs) {
         $db = MySQLiAccess::getInstance();
-        
+        echo $procedure;
+		echo $procArgs;
+		
         if (!is_array($procArgs)&& !is_null($procArgs)) {
             $sql = "CALL $procedure ($procArgs)";
         } else if (!is_null($procArgs)) {
@@ -60,11 +62,11 @@ class MySQLiAccess {
         $conn = $db->connection;
         $data = array();
 		$newResult = array();
-		
+		echo $sql;
         if ($result = $conn->query($sql)) {
-			
+			echo "////got a connection////";
 			if($result){
-				
+				echo "got a result////";
 				$newResult = $result;
 			}
         }

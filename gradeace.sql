@@ -113,9 +113,31 @@ BEGIN
 		
 END$$
 
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `claimTask`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `claimTask`( IN `UserId` INT(10), IN `TaskId` INT(10))
+    READS SQL DATA
+BEGIN
+
+INSERT INTO `Owned`(UserId, TaskId) VALUES (UserId, TaskId);
+
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `changeTaskStatus`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `changeTaskStatus`(IN `TaskId` INT(10))
+    READS SQL DATA
+BEGIN
+
+INSERT INTO `StatusTable`(TaskId, Status) VALUES (TaskId, '1');
+
+END$$
+
 DELIMITER ;
-
-
+-- --------------------------------------------------------
+-- --------------------------------------------------------
 -- --------------------------------------------------------
 --
 -- Table Creation

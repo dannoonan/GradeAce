@@ -50,6 +50,35 @@
         }
         return $ret;	
     }	
+	
+	public static function claimTask( $UserId, $TaskId){
+		
+		$args = null;
+		$retVal = false;
+		
+		
+		if(!is_null($TaskId)&&!is_null($UserId)){
+			
+			$args = $UserId.", ".$TaskId;
+			echo "test var types////";
+			echo $UserId+$TaskId;
+			$result = MySQLiAccess::call("claimTask", $args);
+			
+			if($result){
+				$retVal = true;
+				echo "task has been claimed////";
+			}
+			else{
+				$retVal = false;
+				echo "Failed to insert TaskId, UserId tuple into database";
+			}
+			
+		}else{
+			echo "TaskId or UserId not set";
+		}
+		return $retVal;
+		
+	}
 		 
 	//Inserts a new task into the database
 	private static function insert(&$task) {

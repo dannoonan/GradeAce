@@ -46,44 +46,36 @@
 							<?php
 								
 							
-							if (isset($_GET["id"])) {
+							if (isset($_SESSION["UserId"])&& isset($_SESSION["TempTaskId"])) {
 								
-								$displayTaskId = $_GET["id"];
-								$_SESSION["TempTaskId"]= $displayTaskId;
+								$TaskId = $_SESSION["TempTaskId"];
+								$UserId = $_SESSION["UserId"];
 								$taskDAO = new TaskDAO();
 								
 								try{
-									$task = $taskDAO->getTask($displayTaskId);
+									$task = $taskDAO->getTask($TaskId);
 								}catch(exception $e){
 									$task = null;
 								}
 								
-								 if (!is_null($task) ){
-										printf("<h1> %s </h1> \n", $task->getTitle());
-										printf("<h2>Description: %s </h2>", $task->getDescription() );
-										printf("<h2>Pages: %s</h2>", $task->getPages());
-										printf("<h2>Words: %s</h2>",$task->getWords() );
+								 if (!is_null($task)&&!is_null($TaskId)&&!is_null($UserId) ){
+										
+										$claimResult = $taskDAO->claimTask($UserId, $TaskId);
+										if($claimResult){
+											echo "Task claimed successfully";
+											
+										}else{
+											echo "Failed to claim task";
+										}
+										
+										
 								} else {
-										printf("Task not found.");
+										printf("Could not claim Task - UserId or TaskId not set");
 								}
 								
 							}
 							?>
 							<ul class="actions small">
-							  <?php
-								if (!isset ($_SESSION)) {
-									session_start();
-								}
-								if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != '') { 
-							  ?>
-									<li>
-									  <a href="./claimTask.php" class="button special small">Claim Task</a>
-									</li>
-									<li>
-									  <a href="#" class="button special small">Task Preview</a>
-									</li>
-							  <?php } ?>
-								<li>
 								  <a href="./index.php" class="button small">Back</a>
 								</li>
 						  </ul>
