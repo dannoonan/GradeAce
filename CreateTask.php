@@ -1,4 +1,6 @@
 <?php
+	 require_once __DIR__.'/daos/TaskDAO.class.php';   
+	 require_once __DIR__.'/daos/FileDAO.class.php';   
 	
 	session_start();
 	
@@ -20,16 +22,26 @@
 		if(empty($Title) || empty($TaskType) || empty($Description) || empty($Pages) || empty($Words) ||
 			empty($FileFormat) || empty($ClaimDate) || empty($CompleteDate))
 			{
-				echo "Information missing";
+				echo "Error!! Information missing";
 			}
 			else
 			{
-			
-			$fileName = $_FILES['pdf1']['name'];
-			$tmpName  = $_FILES['pdf1']['tmp_name'];
-			$fileSize = $_FILES['pdf1']['size'];
-			$fileType = $_FILES['pdf1']['type'];
+				
+				$TaskDAO=new TaskDAO();
+				$FileDAO=new FileDAO();
+				
+				$fileName = $_FILES['pdf1']['name'];
+				$tmpName  = $_FILES['pdf1']['tmp_name'];
+				$fileSize = $_FILES['pdf1']['size'];
+				$fileType = $_FILES['pdf1']['type'];
+				
+				$File=new PdfFile();
 
+				$File->setFileName($fileName);
+				$File->setTmpName($tmpName);
+				$File->setFileSize($fileSize);
+				$File->setFileType($fileType);
+				
 			$fp      = fopen($tmpName, 'r');
 			$content = fread($fp, filesize($tmpName));
 			$content = addslashes($content);
@@ -39,16 +51,36 @@
 			{
 				$fileName = addslashes($fileName);
 			}
+			
+				$File->setContent($content);
+				$File = $FileDAO->insert($File);
 
-			$query = "INSERT INTO upload (name, size, type, content ) VALUES ('$fileName', '$fileSize', '$fileType', '$content')";
+			//$query = "INSERT INTO upload (name, size, type, content ) VALUES ('$fileName', '$fileSize', '$fileType', '$content')";
 			
-			mysqli_query($db, $query) or die('Error, query failed'); 
-			$FilePath=mysqli_insert_id($db)or die(mysqli_error($db));
+			//mysqli_query($db, $query) or die('Error, query failed'); 
+			//$FilePath=mysqli_insert_id($db)or die(mysqli_error($db));
+
+			$FilePath=new PdfFile();
+			$FilePath=$File->getFileId();
 			
-			$sql = "INSERT INTO tasks(Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
-			mysqli_query($db, $sql);
+			$Task = new Task();
+			$Task->setTitle($Title);
+			$Task->setTaskType($TaskType);
+			$Task->setDescription($Description);
+			$Task->setPages($Pages);
+			$Task->setWords($Words);
+			$Task->setFileFormat($FileFormat);
+			$Task->setFilePath($FilePath);
+			$Task->setClaimDate($ClaimDate);
+			$Task->setCompleteDate($CompleteDate);
+			
+			$Task = $TaskDAO->insert($Task);
+			
+			//$sql = "INSERT INTO tasks(Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
+			//mysqli_query($db, $sql);
 				
-			$TaskId = mysqli_insert_id($db)or die(mysqli_error($db));
+			//$TaskId = mysqli_insert_id($db)or die(mysqli_error($db));
+			$TaskId = $Task->getTaskId();
 		
 			for($i=0; $i<4; $i++)
 			{

@@ -7,21 +7,17 @@
  Class TaskDAO {
 	 
 	 
-	public static function getTask($TaskId){
+	public static function getTask($TaskId, $Title){
 		 
 		$task = null;
 		 
-		if(!is_null($TaskId)){
-			
-			/*Creates args to pass to the MySQLiAccess class's call method, thereby using an SQL statment
-			to retrieve the desired task from the database*/
-			$args = $TaskId;
-			
-			//The results from the database, after being retrieved by the MySQLiAccess call method, are stored in the variable '$result'
-			$result = MySQLiAccess::call("getTask", $args);
+		if (!is_null($TaskId) || !is_null($Title)) {
+		
+            $args = $TaskId.", ".MySQLiAccess::prepareString($Title);
+
+            $result = MySQLiAccess::call("getTask", $args);
 			
 			
-			//If there is a result, the buildModel method is called from the ModelFactory class to construct a new Task object
             if ($result) {
 				$resultArray = $result->fetch_array();
                 $task = ModelFactory::buildModel("Task", $resultArray);
@@ -52,10 +48,10 @@
     }	
 		 
 	//Inserts a new task into the database
-	private static function insert(&$task) {
+	public static function insert(&$task) {
+		$Title=$task->getTitle();
 		//A string, $args, is created to hold the attributes of the task object that will be inserted into the database
-		$args = MySQLiAccess::prepareString($task->getTaskId()).", ".
-		MySQLiAccess::prepareString($task->getTitle()).", ".
+		$args = MySQLiAccess::prepareString($task->getTitle()).", ".
 		MySQLiAccess::prepareString($task->getTaskType()).", ".
 		MySQLiAccess::prepareString($task->getDescription()).", ".
 		MySQLiAccess::prepareString($task->getPages()).", ".
@@ -63,15 +59,17 @@
 		MySQLiAccess::prepareString($task->getFileFormat()).", ".
 		MySQLiAccess::prepareString($task->getFilePath()).", ".
 		MySQLiAccess::prepareString($task->getClaimDate()).", ".
-		MySQLiAccess::prepareString($task->getCompleteDate()).", ".
-		MySQLiAccess::prepareString($task->getNotes());
+		MySQLiAccess::prepareString($task->getCompleteDate());
+				
+		$result = MySQLiAccess::call2("addTask", $args);
 		
-		$result = MySQLiAccess::call("addTask", $args);
         if ($result) {
-            $task = ModelFactory::buildModel("Task", $result[0]);
+			echo "HERE";
+			$task = self::getTask("''",$Title);
         } else {
             $task = null;
         }
+		return $task;
     }
 
 	

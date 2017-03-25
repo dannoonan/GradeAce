@@ -60,20 +60,28 @@ class MySQLiAccess {
         $conn = $db->connection;
         $data = array();
 		$newResult = array();
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		} 
 		
         if ($result = $conn->query($sql)) {
-			
+			echo"TEST";
 			if($result){
-				
 				$newResult = $result;
 			}
         }
+		else
+		{
+			echo "FAIL";
+			echo "Error: " . $sql . "<br>" . $conn->error;
+		}
+		
 		 return empty($newResult) ? false : $newResult;
-		
-		
+
 		//return empty($data) ? false : $data;
 
     }
+	
 	
 	public static function prepareString($string) {
 		$db = MySQLiAccess::getInstance();

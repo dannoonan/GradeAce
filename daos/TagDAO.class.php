@@ -29,7 +29,7 @@
 	}
 		 
 	//Inserts a new tag into the database
-	private static function insert(&$tag) {
+	public static function insert(&$tag) {
 		//A string, $args, is created to hold the attributes of the tag object that will be inserted into the database
 		$args = MySQLiAccess::prepareString($tag->getTagId()).", ".
 		MySQLiAccess::prepareString($tag->getTag());

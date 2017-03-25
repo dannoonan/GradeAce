@@ -20,6 +20,9 @@ class ModelFactory {
 			case "Task":
                 $retVal = self::createTask($modelData);
                 break;
+			case "PdfFile":
+				$retVal = self::createFile($modelData);
+                break;
 			default:
                 echo "Unable to build model $modelName";
 		}
@@ -130,6 +133,35 @@ class ModelFactory {
 			
 		return $retVal;
 	}
+	
+	private static function createFile($modelData) {
+		$retVal = new PdfFile();
 
+		if (isset($modelData['id'])) {
+			$retVal ->setFileId($modelData["id"]);
+		}
+
+		if (isset($modelData['name'])) {
+			$retVal ->setFileName($modelData["name"]);
+		}
+		
+		if (isset($modelData['tmpName'])) {
+			$retVal ->setTmpName($modelData["tmpName"]);
+		}
+		
+		if (isset($modelData['size'])) {
+			$retVal ->setFileSize($modelData["size"]);
+		}	
+
+		if (isset($modelData['type'])) {
+			$retVal ->setFileSize($modelData["type"]);
+		}
+		
+		if (isset($modelData['content'])) {
+			$retVal ->setContent($modelData["content"]);
+		}
+
+		return $retVal;
+}
 }
 ?>

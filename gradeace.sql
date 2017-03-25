@@ -22,10 +22,10 @@ USE `gradeace`;
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `addTask`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addTask`(IN `Title` VARCHAR(128), IN `TaskType` VARCHAR(128), IN `Description` VARCHAR(128), IN `Pages` INT(5), IN `Words` INT(10), IN `FileFormat` CHAR(128), IN `FilePath` VARCHAR(128), IN `ClaimDate` DATETIME, IN `CompleteDate` DATETIME, IN `Notes` VARCHAR(300))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addTask`(IN `Title` VARCHAR(128), IN `TaskType` VARCHAR(128), IN `Description` VARCHAR(128), IN `Pages` INT(5), IN `Words` INT(10), IN `FileFormat` CHAR(128), IN `FilePath` VARCHAR(128), IN `ClaimDate` DATETIME, IN `CompleteDate` DATETIME)
     READS SQL DATA
 BEGIN
-INSERT INTO `tasks`(TaskId, Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate, Notes) VALUES (NULL, Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate, Notes);
+INSERT INTO `tasks`(Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES (Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate);
 END$$
 
 -- --------------------------------------------------------
@@ -54,6 +54,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addUser`(IN `FirstName` VARCHAR(128
     READS SQL DATA
 BEGIN
 INSERT INTO `Users`(FirstName, LastName, Email, Course, Password) VALUES (FirstName, Lastname, Email, Course, Password);
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `addFile`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addFile`(IN `fileName` VARCHAR(300), IN `fileType` VARCHAR(300), IN `fileSize` INT, IN `content` MEDIUMBLOB)
+    READS SQL DATA
+BEGIN
+INSERT INTO `Upload`(Name, Type, Size, Content) VALUES (fileName, fileType, fileSize, content);
 END$$
 
 -- --------------------------------------------------------
@@ -99,6 +108,23 @@ BEGIN
         from tasks t  
         where   (TaskId is null or t.TaskId = TaskId);
 
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `getFile`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFile`(IN `FileId` VARCHAR(128), IN `FileName` VARCHAR(300))
+    READS SQL DATA
+BEGIN
+	if FileId='' then set FileId=null;end if;
+	if FileName='' then set FileName=null;end if;
+	
+	select u.id, u.name, u.`type`, u.`size`, u.content  
+        from upload u  
+        where   (FileId is null or u.Id = FileId)
+            and (FileName is null or (LOWER(u.name) = LOWER(FileName)));
+
+		
 END$$
 
 -- --------------------------------------------------------
@@ -237,10 +263,10 @@ CONSTRAINT FOREIGN KEY (`TaskId`) REFERENCES TASKS(`TaskId`) ON DELETE CASCADE O
 -- Table structure for table `Upload`
 --
 
-CREATE TABLE upload (
+CREATE TABLE IF NOT EXISTS upload (
 id INT NOT NULL AUTO_INCREMENT,
-name VARCHAR(30) NOT NULL,
-type VARCHAR(30) NOT NULL,
+name VARCHAR(300) NOT NULL,
+type VARCHAR(300) NOT NULL,
 size INT NOT NULL,
 content MEDIUMBLOB NOT NULL,
 PRIMARY KEY(id)
