@@ -58,11 +58,14 @@
 									$task = null;
 								}
 								
-								 if (!is_null($task)&&!is_null($TaskId)&&!is_null($UserId) ){
+								 if (!is_null($task)&&!is_null($TaskId)){
 										
-										$claimResult = $taskDAO->claimTask($UserId, $TaskId);
+										$claimResult = $taskDAO->claimTask($TaskId);
 										if($claimResult){
-											echo "Task claimed successfully";
+											?>
+											<h1>Task claimed successfully</h1>
+											
+											<?php
 											
 										}else{
 											echo "Failed to claim task";

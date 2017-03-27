@@ -115,8 +115,8 @@ END$$
 
 -- --------------------------------------------------------
 
-DROP PROCEDURE IF EXISTS `claimTask`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `claimTask`( IN `UserId` INT(10), IN `TaskId` INT(10))
+DROP PROCEDURE IF EXISTS `ownsTask`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ownsTask`( IN `UserId` INT(10), IN `TaskId` INT(10))
     READS SQL DATA
 BEGIN
 
@@ -126,13 +126,52 @@ END$$
 
 -- --------------------------------------------------------
 
-DROP PROCEDURE IF EXISTS `changeTaskStatus`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `changeTaskStatus`(IN `TaskId` INT(10))
+DROP PROCEDURE IF EXISTS `claimTask`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `claimTask`(IN `TaskId` INT(10))
     READS SQL DATA
 BEGIN
 
 INSERT INTO `StatusTable`(TaskId, Status) VALUES (TaskId, '1');
 
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `getTaskStatus`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getTaskStatus`(IN `TaskId` INT(10))
+    READS SQL DATA
+BEGIN
+
+		select s.Status 
+		from StatusTable s
+		where (s.TaskId = TaskId);
+
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `getFile`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFile`(IN `FileId` VARCHAR(128), IN `FileName` VARCHAR(300))
+    READS SQL DATA
+BEGIN
+	if FileId='' then set FileId=null;end if;
+	if FileName='' then set FileName=null;end if;
+	
+	select u.id, u.name, u.`type`, u.`size`, u.content  
+        from upload u  
+        where   (FileId is null or u.Id = FileId)
+            and (FileName is null or (LOWER(u.name) = LOWER(FileName)));
+
+		
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `addFile`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addFile`(IN `fileName` VARCHAR(300), IN `fileType` VARCHAR(300), IN `fileSize` INT, IN `content` MEDIUMBLOB)
+    READS SQL DATA
+BEGIN
+INSERT INTO `Upload`(Name, Type, Size, Content) VALUES (fileName, fileType, fileSize, content);
 END$$
 
 DELIMITER ;
@@ -188,8 +227,8 @@ CREATE TABLE IF NOT EXISTS `Owned` (
 `UserId` int(10) unsigned NOT NULL,
 `TaskId` int(10) unsigned NOT NULL ,
 PRIMARY KEY (`Numbered`),
-CONSTRAINT FOREIGN KEY (`UserId`) REFERENCES USERS(`UserId`)ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT FOREIGN KEY (`TaskId`) REFERENCES TASKS(`TaskId`) ON DELETE CASCADE ON UPDATE CASCADE
+CONSTRAINT FOREIGN KEY (`UserId`) REFERENCES `Users`(`UserId`)ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT FOREIGN KEY (`TaskId`) REFERENCES `Tasks`(`TaskId`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 --
@@ -201,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `Flag` (
 `TaskId` int(10) unsigned NOT NULL,
 `IsFlagged` boolean NOT NULL DEFAULT 0,
 PRIMARY KEY (`Numbered`),
-CONSTRAINT FOREIGN KEY (`TaskId`) REFERENCES TASKS(`TaskId`) ON DELETE CASCADE ON UPDATE CASCADE
+CONSTRAINT FOREIGN KEY (`TaskId`) REFERENCES `Tasks`(`TaskId`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 --
@@ -213,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `Banned` (
 `UserId` int(10) unsigned NOT NULL,
 `IsBanned` boolean NOT NULL DEFAULT 0,
 PRIMARY KEY (`Numbered`),
-CONSTRAINT FOREIGN KEY (`UserId`) REFERENCES Users(`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
+CONSTRAINT FOREIGN KEY (`UserId`) REFERENCES `Users`(`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 --
@@ -235,8 +274,8 @@ CREATE TABLE IF NOT EXISTS `TaskTags` (
 `TaskId` int(10) unsigned NOT NULL,
 `TagId` int(10) unsigned NOT NULL,
 PRIMARY KEY (`Numbered`),
-CONSTRAINT FOREIGN KEY (`TaskId`) REFERENCES TASKS(`TaskId`) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT FOREIGN KEY (`TagId`) REFERENCES TAGS(`TagId`) ON DELETE CASCADE ON UPDATE CASCADE
+CONSTRAINT FOREIGN KEY (`TaskId`) REFERENCES `Tasks`(`TaskId`) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT FOREIGN KEY (`TagId`) REFERENCES `Tags`(`TagId`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- --------------------------------------------------------
@@ -250,7 +289,7 @@ CREATE TABLE IF NOT EXISTS `StatusTable` (
 `TaskId` int(10) unsigned NOT NULL,
 `Status` int(1) unsigned NOT NULL DEFAULT 0,
 PRIMARY KEY (`Numbered`),
-CONSTRAINT FOREIGN KEY (`TaskId`) REFERENCES TASKS(`TaskId`) ON DELETE CASCADE ON UPDATE CASCADE
+CONSTRAINT FOREIGN KEY (`TaskId`) REFERENCES `Tasks`(`TaskId`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- --------------------------------------------------------
