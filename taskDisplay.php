@@ -63,6 +63,8 @@
 										printf("<h2>Description: %s </h2>", $task->getDescription() );
 										printf("<h2>Pages: %s</h2>", $task->getPages());
 										printf("<h2>Words: %s</h2>",$task->getWords() );
+										printf("<h2>Claim deadline: %s</h2>",$task->getClaimDate() );
+										printf("<h2>Complete Task deadline: %s</h2>",$task->getCompleteDate() );
 								} else {
 										printf("Task not found.");
 								}
