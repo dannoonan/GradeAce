@@ -1,6 +1,6 @@
 <?php
 
-Class Task{
+class Task{
 	private $TaskId;
 	private $Title;
 	private $TaskType;

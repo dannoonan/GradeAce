@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__."//../models/Item.class.php";
-require_once __DIR__."//../models/User.class.php";
-require_once __DIR__."//../models/Tag.class.php";
+require_once __DIR__.'//../models/Task.class.php';
+require_once __DIR__.'//../models/User.class.php';
+require_once __DIR__.'//../models/Tag.class.php';
 
 class ModelFactory {
 	//The public function is the interaction point between the other classes and the ModelFactory class, it provides an interface between
@@ -29,17 +29,21 @@ class ModelFactory {
 
 	private static function createUser($modelData) {
 		//User object is created
+		
 		$retVal = new User();
 		//If the UserId field is not set, then the value is set to that of the same field in the modelData
 		if (isset($modelData['UserId'])) {
+			
 			$retVal ->setUserId($modelData["UserId"]);
 		}
 		//The same goes for the FirstName field, and all subsequent fields 
 		if (isset($modelData['FirstName'])) {
+			
 			$retVal ->setFirstName($modelData["FirstName"]);
 		}
 		
 		if (isset($modelData['LastName'])) {
+			
 			$retVal ->setLastName($modelData["LastName"]);
 		}	
 

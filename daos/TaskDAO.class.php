@@ -1,7 +1,7 @@
 <?php
- require_once __DIR__ . "/.../models/Task.class.php";
- require_once __DIR__ . "/.../utils/MySQLi.class.php";
- require_once __DIR__ . "/.../utils/ModelFactory.class.php";
+ require_once __DIR__.'/../models/Task.class.php';
+ require_once __DIR__.'/../utils/MySQLiAccess.class.php';
+ require_once __DIR__.'/../utils/ModelFactory.class.php';
 
  
  Class TaskDAO {
@@ -12,6 +12,7 @@
 		$task = null;
 		 
 		if(!is_null($TaskId)){
+			
 			/*Creates args to pass to the MySQLiAccess class's call method, thereby using an SQL statment
 			to retrieve the desired task from the database*/
 			$args = $TaskId;
@@ -19,9 +20,11 @@
 			//The results from the database, after being retrieved by the MySQLiAccess call method, are stored in the variable '$result'
 			$result = MySQLiAccess::call("getTask", $args);
 			
+			
 			//If there is a result, the buildModel method is called from the ModelFactory class to construct a new Task object
             if ($result) {
-                $task = ModelFactory::buildModel("Task", $result[0]);
+				$resultArray = $result->fetch_array();
+                $task = ModelFactory::buildModel("Task", $resultArray);
             }
         }
         return $task;
@@ -29,17 +32,82 @@
 	}
 	
 	 public static function getAllTasks() {
-        $args = "";
+        $args = null;
+		
 	    $result = MySQLiAccess::call("getAllTasks", $args);
         $ret = null;
         if ($result) {
+			$result;
+			
             $ret = array();
+			
+			
             foreach ($result as $row) {
+				
+				
                  $ret[] = ModelFactory::buildModel("Task", $row);
             }
         }
         return $ret;	
     }	
+	
+	/*public static function claimTask( $UserId, $TaskId){
+		
+		$args = null;
+		$retVal = false;
+		
+		
+		if(!is_null($TaskId)&&!is_null($UserId)){
+			
+			$args = $UserId.", ".$TaskId;
+			echo "test var types////";
+			
+			//$result = MySQLiAccess::call("claimTask", $args);
+			$result = MySQLiAccess::call2("claimTask", $args);
+			
+			if($result){
+				$retVal = true;
+				echo "task has been claimed////";
+			}
+			else{
+				$retVal = false;
+				echo "Failed to insert TaskId, UserId tuple into database";
+			}
+			
+		}else{
+			echo "TaskId or UserId not set";
+		}
+		return $retVal;
+		
+	}*/
+	
+	public static function claimTask($TaskId){
+		
+		$args = null;
+		$retVal = false;
+		
+		
+		if(!is_null($TaskId)){
+			
+			$args = $TaskId;
+			
+			//$result = MySQLiAccess::call("claimTask", $args);
+			$result = MySQLiAccess::call2("claimTask", $args);
+			
+			if($result){
+				$retVal = true;
+			}
+			else{
+				$retVal = false;
+				echo "Failed to insert TaskId, UserId tuple into database";
+			}
+			
+		}else{
+			echo "TaskId or UserId not set";
+		}
+		return $retVal;
+		
+	}
 		 
 	//Inserts a new task into the database
 	private static function insert(&$task) {
