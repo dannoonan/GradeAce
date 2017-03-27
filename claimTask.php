@@ -41,41 +41,47 @@
 					<div class="row">
 						<div class="11u 12u(mobile)">
 							<header>
-							<?php
-								if(isset($_SESSION['UserName'])){
-								printf("<h1>Welcome to <strong>GradeAce</strong>, %s</h1>", $_SESSION['UserName']);
-								}else{
-									printf("<h1>Welcome to <strong>GradeAce</strong></h1>");
-									?>
-									
-									<a href="./login.php" class="button small">Login</a>
-								<?php
-								}
-								
-							?>
-								
+							
 							</header>
 							<?php
-
 								
 							
-							if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){
-
-								$taskDao = new TaskDAO();
-								try {
-									
-									$tasks = $taskDao->getAllTasks();	
-									
-								} catch (Exception $e) {
-									$tasks = null;
+							if (isset($_SESSION["UserId"])&& isset($_SESSION["TempTaskId"])) {
+								
+								$TaskId = $_SESSION["TempTaskId"];
+								$UserId = $_SESSION["UserId"];
+								$taskDAO = new TaskDAO();
+								
+								try{
+									$task = $taskDAO->getTask($TaskId);
+								}catch(exception $e){
+									$task = null;
 								}
-								if (!is_null($tasks)) {
-									foreach ($tasks as $task) {
-										printf("<h2> <a href=\"./taskDisplay.php?id=%s\"> %s  -  %s</h2>", $task->getTaskId(), $task->getTitle(), $task->getTaskType());
-									}
+								
+								 if (!is_null($task)&&!is_null($TaskId)){
+										
+										$claimResult = $taskDAO->claimTask($TaskId);
+										if($claimResult){
+											?>
+											<h1>Task claimed successfully</h1>
+											
+											<?php
+											
+										}else{
+											echo "Failed to claim task";
+										}
+										
+										
+								} else {
+										printf("Could not claim Task - UserId or TaskId not set");
 								}
+								
 							}
 							?>
+							<ul class="actions small">
+								  <a href="./index.php" class="button small">Back</a>
+								</li>
+						  </ul>
 						</div>
 					</div>
 				</article>
@@ -90,24 +96,6 @@
 		
 			<div class="wrapper style4" id ="register">
 				<article id="contact" class="container 75%">
-				<?php
-					if(!isset($_SESSION['UserId'])){ ?>
-						<header>
-							<h2>Get the right advice when you need it</h2>
-							<p>Register an account with us today</p>
-						</header>
-						<div>
-							<div class="row">
-								<div class="12u">
-
-								<input type="button" value="Register Now" onclick="window.open('Register.php', '_self')">
-				
-								</div>
-							</div>
-						</div>
-				<?php		
-					}
-				?>
 					<footer>
 						<ul id="copyright">
 							<li>© Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
@@ -130,4 +118,3 @@
 </body>
 </html>
 		
-	
