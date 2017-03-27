@@ -90,14 +90,12 @@
 		if(!is_null($TaskId)){
 			
 			$args = $TaskId;
-			echo "test var types////";
 			
 			//$result = MySQLiAccess::call("claimTask", $args);
 			$result = MySQLiAccess::call2("claimTask", $args);
 			
 			if($result){
 				$retVal = true;
-				echo "task has been claimed////";
 			}
 			else{
 				$retVal = false;
