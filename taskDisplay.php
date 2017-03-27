@@ -68,6 +68,8 @@
 								}
 								
 							}
+							
+							
 							?>
 							<ul class="actions small">
 							  <?php
@@ -77,10 +79,10 @@
 								if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != '') { 
 							  ?>
 									<li>
-									  <a href="./claimTask.php" class="button special small">Claim Task</a>
+									  <a href="./claimTask.php" class="button small">Claim Task</a>
 									</li>
 									<li>
-									  <a href="#" class="button special small">Task Preview</a>
+									  <a href="" class="button Small">Download Preview</a> <br>
 									</li>
 							  <?php } ?>
 								<li>

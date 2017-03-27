@@ -1,7 +1,7 @@
 <?php
- require_once __DIR__ . "/.../models/Tag.class.php";
- require_once __DIR__ . "/.../utils/MySQLi.class.php";
- require_once __DIR__ . "/.../utils/ModelFactory.class.php";
+ require_once __DIR__.'/../models/Tag.class.php';
+ require_once __DIR__.'/../utils/MySQLiAccess.class.php';
+ require_once __DIR__.'/../utils/ModelFactory.class.php';
 
  
  Class TagDAO {
