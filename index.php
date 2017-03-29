@@ -58,7 +58,7 @@
 							</header>
 							<?php
 
-								
+							require_once('load.php');
 							
 							if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){
 

@@ -114,7 +114,23 @@
 		return $retVal;
 		
 	}
-		 
+	
+	public static function addNotes($notes, $taskId){
+		
+		$args = $notes.", ".$taskId;
+		
+		$result = MySQLiAccess::call2("addReview", $args);
+		
+		
+		if($result){
+			echo "Review added";
+		}else{
+			echo "Failed to add review";
+		}
+		
+		
+	}
+	
 	//Inserts a new task into the database
 	private static function insert(&$task) {
 		//A string, $args, is created to hold the attributes of the task object that will be inserted into the database

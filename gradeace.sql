@@ -174,6 +174,20 @@ BEGIN
 INSERT INTO `Upload`(Name, Type, Size, Content) VALUES (fileName, fileType, fileSize, content);
 END$$
 
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `addReview`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addReview`(IN `rNotes` VARCHAR(128), IN `rTaskId` INT(10))
+    READS SQL DATA
+BEGIN
+	
+UPDATE `Tasks`
+SET Notes = rNotes
+WHERE TaskId = rTaskId;
+
+		
+END$$
+
 DELIMITER ;
 -- --------------------------------------------------------
 -- --------------------------------------------------------

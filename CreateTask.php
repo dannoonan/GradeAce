@@ -133,7 +133,7 @@
 				<article class="container" id="login">
 					<div class="row">
 						
-						<div class="8u 12u(mobile)">
+						<div class="11u 12u(mobile)">
 							<header>
 								<h1>Task Creation.</h1>
 								<h2>Create a Task by filling in the details below.</h2>
