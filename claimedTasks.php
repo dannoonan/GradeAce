@@ -25,10 +25,9 @@
 						}
 						
 						if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){ 
-						//printf("<li><a href=\"./createTask.php\" class=\"\">Sell</a></li>");
 						printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
-						printf("<li><a href=#>Create a Task</a></li>");
-					    printf("<li><a href=\"./profilePage.php\">Profile</a></li>");
+						printf("<li><a href=\"./CreateTask.php\">Create a Task</a></li>");
+						printf("<li><a href=\"./profilePage.php\">Profile</a></li>");
 						} else {
 							printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
 						}
@@ -42,56 +41,48 @@
 					<div class="row">
 						<div class="11u 12u(mobile)">
 							<header>
-							
-							</header>
 							<?php
-								
-							
-							if (isset($_GET["id"])) {
-								
-								$displayTaskId = $_GET["id"];
-								$_SESSION["TempTaskId"]= $displayTaskId;
-								$taskDAO = new TaskDAO();
-								
-								try{
-									$task = $taskDAO->getTask($displayTaskId);
-								}catch(exception $e){
-									$task = null;
+								if(isset($_SESSION['UserName'])){
+								printf("<h1><strong><u>Claimed Tasks</u></strong></h1>");
+								}else{
+									printf("<h1>Welcome to <strong>GradeAce</strong></h1>");
+									?>
+									
+									<a href="./login.php" class="button small">Login</a>
+								<?php
 								}
 								
-								 if (!is_null($task) ){
-										printf("<h1> %s </h1> \n", $task->getTitle());
-										printf("<h2>Description: %s </h2>", $task->getDescription() );
-										printf("<h2>Pages: %s</h2>", $task->getPages());
-										printf("<h2>Words: %s</h2>",$task->getWords() );
-										printf("<h2>Claim deadline: %s</h2>",$task->getClaimDate() );
-										printf("<h2>Complete Task deadline: %s</h2>",$task->getCompleteDate() );
-								} else {
-										printf("Task not found.");
-								}
-								
-							}
-							
-							
 							?>
-							<ul class="actions small">
-							  <?php
-								if (!isset ($_SESSION)) {
-									session_start();
+							</header>
+							
+								
+							
+							<?php
+							require_once('load.php');
+								
+							
+							if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){
+								$uNum = $_SESSION['UserId'];
+
+								$taskDao = new TaskDAO();
+								try {
+									
+									$tasks = $taskDao->getAllTasks();	
+									
+								} catch (Exception $e) {
+									$tasks = null;
 								}
-								if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != '') { 
-							  ?>
-									<li>
-									  <a href="./claimTask.php" class="button small">Claim Task</a>
-									</li>
-									<li>
-									  <a href="" class="button Small">Download Preview</a> <br>
-									</li>
-							  <?php } ?>
-								<li>
-								  <a href="./index.php" class="button small">Back</a>
-								</li>
-						  </ul>
+								if (!is_null($tasks)) {
+									foreach ($tasks as $task) {
+										$num=$task->getTaskId();
+										$result=mysqli_query($db,"SELECT 1 FROM statustable WHERE `TaskId` = '$num' && `Status` = 1");
+										$result2=mysqli_query($db, "SELECT 1 FROM owned WHERE `TaskId` = '$num' && `UserId` = '$uNum'");
+										if(($result && mysqli_num_rows($result) > 0) && ($result2 && mysqli_num_rows($result2) > 0))
+											printf("<h2> <a href=\"./taskDisplay.php?id=%s\">%s  -  %s</h2>", $task->getTaskId(), $task->getTitle(), $task->getTaskType());
+									}
+								}
+							}
+							?>
 						</div>
 					</div>
 				</article>
@@ -106,6 +97,24 @@
 		
 			<div class="wrapper style4" id ="register">
 				<article id="contact" class="container 75%">
+				<?php
+					if(!isset($_SESSION['UserId'])){ ?>
+						<header>
+							<h2>Get the right advice when you need it</h2>
+							<p>Register an account with us today</p>
+						</header>
+						<div>
+							<div class="row">
+								<div class="12u">
+
+								<input type="button" value="Register Now" onclick="window.open('Register.php', '_self')">
+				
+								</div>
+							</div>
+						</div>
+				<?php		
+					}
+				?>
 					<footer>
 						<ul id="copyright">
 							<li>© Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
@@ -128,3 +137,4 @@
 </body>
 </html>
 		
+	

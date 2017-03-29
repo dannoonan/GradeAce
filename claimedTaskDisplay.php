@@ -1,8 +1,8 @@
 <?php
-    require_once __DIR__.'./daos/TaskDAO.class.php';
-	require_once __DIR__.'./daos/TagDAO.class.php';
+    require_once './daos/TaskDAO.class.php';
+	require_once './daos/TagDAO.class.php';
 ?>
-<html>
+<!DOCTYPE  html>
 <html>
 <head>
 		<meta name="viewport" content="initial-scale=1"><meta name="viewport" content="user-scalable=yes,width=device-width,initial-scale=1"><meta name="viewport" content="initial-scale=1"><meta name="viewport" content="user-scalable=yes,width=device-width,initial-scale=1"><title>GradeAce</title>
@@ -20,15 +20,9 @@
 				<ul class="container">
 					<li><a href="./index.php">Home</a></li>
 					<?php 
-						if (!isset ($_SESSION)) {
-							session_start();
-						}
-						
-						if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){ 
+						if (isset($_SESSION["userId"]) && $_SESSION["userId"] != ''){ 
 						//printf("<li><a href=\"./createTask.php\" class=\"\">Sell</a></li>");
 						printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
-						printf("<li><a href=#>Create a Task</a></li>");
-					    printf("<li><a href=\"./profilePage.php\">Profile</a></li>");
 						} else {
 							printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
 						}
@@ -38,41 +32,30 @@
 
 		<!-- Home -->
 			<div class="wrapper style1 first">
-				<article class="container 75%" id="main">
+				<article class="container" id="main">
 					<div class="row">
-						<div class="11u 12u(mobile)">
+						<div class="8u 12u(mobile)">
 							<header>
-							
+								<h1>Welcome to <strong>GradeAce</strong>.</h1>
 							</header>
 							<?php
-								
-							
-							if (isset($_GET["id"])) {
-								
-								$displayTaskId = $_GET["id"];
-								$_SESSION["TempTaskId"]= $displayTaskId;
-								$taskDAO = new TaskDAO();
-								
-								try{
-									$task = $taskDAO->getTask($displayTaskId);
-								}catch(exception $e){
-									$task = null;
-								}
-								
-								 if (!is_null($task) ){
-										printf("<h1> %s </h1> \n", $task->getTitle());
-										printf("<h2>Description: %s </h2>", $task->getDescription() );
-										printf("<h2>Pages: %s</h2>", $task->getPages());
-										printf("<h2>Words: %s</h2>",$task->getWords() );
-										printf("<h2>Claim deadline: %s</h2>",$task->getClaimDate() );
-										printf("<h2>Complete Task deadline: %s</h2>",$task->getCompleteDate() );
-								} else {
+								if (isset($_GET["TaskId"])) {
+									
+									$TaskId = $_GET["TaskId"];
+									$taskDao = new TaskDAO();
+									
+									try {
+										$task = $taskDao->getTask($TaskId);
+									} catch (Exception $e) {
+										$task = null;
+									}
+									
+									if (!is_null($task) ){
+										printf("<h2> %s </h2> <p> %s </p>\n", $task->getTitle(), $task->getDescription());
+									} else {
 										printf("Task not found.");
+									}
 								}
-								
-							}
-							
-							
 							?>
 							<ul class="actions small">
 							  <?php
@@ -82,16 +65,11 @@
 								if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != '') { 
 							  ?>
 									<li>
-									  <a href="./claimTask.php" class="button small">Claim Task</a>
-									</li>
-									<li>
-									  <a href="" class="button Small">Download Preview</a> <br>
+									  <a href="#" class="button">Claim</a>
 									</li>
 							  <?php } ?>
 								<li>
-								  <a href="./index.php" class="button small">Back</a>
-								</li>
-						  </ul>
+							<a href="./index.php" class="button">Back</a>
 						</div>
 					</div>
 				</article>
@@ -106,6 +84,20 @@
 		
 			<div class="wrapper style4" id ="register">
 				<article id="contact" class="container 75%">
+					<header>
+						<h2>Get the right advice when you need it</h2>
+						<p>Register an account with us today</p>
+					</header>
+					<div>
+						<div class="row">
+							<div class="12u">
+
+							<input type="button" value="Register Now" onclick="window.open('Register.php', '_self')">
+			
+							</div>
+						</div>
+						
+					</div>
 					<footer>
 						<ul id="copyright">
 							<li>© Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
@@ -128,3 +120,4 @@
 </body>
 </html>
 		
+	
