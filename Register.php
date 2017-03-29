@@ -63,13 +63,15 @@
 									$Password2 = ($_POST['Password2']);
 									
 									$userDAO = new UserDAO();
-									$user = $userDAO->getUser('', $Email);
+
+									//$user = $userDAO->getUser("''", $Email);
 									
 									
 									if($Password == $Password2){
-										 if (!is_null($user)) { 
+										/* if (!is_null($user)) { 
 														printf("<h2> There is already an account with that email address</h2>");
-													} else{
+													} else{*/
+
 														
 														$siteSalt  = "gradeace";
 														$saltedHash = hash('sha256', $Password.$siteSalt);
@@ -86,8 +88,7 @@
 																printf("<h2> Welcome %s! Please <a href=\"./login.php\"> login </a> to proceed. </h2>", $user->getFirstName());
 														}
 														
-														
-													}
+
 										
 										
 									}else{

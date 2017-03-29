@@ -100,7 +100,7 @@
 			$userId = $_SESSION['id'];
 			mysqli_query($db,"INSERT INTO owned(UserId, TaskId) Values ('$userId', '$TaskId')");
 						
-			//header("location: index.php");
+			header("location: index.php");
 		}
 	}
 	else
@@ -123,10 +123,8 @@
 		<!-- Nav -->
 			<nav id="nav">
 				<ul class="container">
-					<li><a href="#login">Login</a></li>
-					<li><a href="#register">Register</a></li>
-					<li><a href="#portfolio">About</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="./index.php">Home</a></li>
+					<li><a href=\"./logout.php\" class=\"\">Logout</a></li>
 				</ul>
 			</nav>
 
