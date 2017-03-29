@@ -1,3 +1,4 @@
+
 <?php
     require_once __DIR__.'./daos/TaskDAO.class.php';
 	require_once __DIR__.'./daos/TagDAO.class.php';
@@ -63,15 +64,11 @@
 										printf("<h2>Description: %s </h2>", $task->getDescription() );
 										printf("<h2>Pages: %s</h2>", $task->getPages());
 										printf("<h2>Words: %s</h2>",$task->getWords() );
-										printf("<h2>Claim deadline: %s</h2>",$task->getClaimDate() );
-										printf("<h2>Complete Task deadline: %s</h2>",$task->getCompleteDate() );
 								} else {
 										printf("Task not found.");
 								}
 								
 							}
-							
-							
 							?>
 							<ul class="actions small">
 							  <?php
@@ -81,10 +78,10 @@
 								if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != '') { 
 							  ?>
 									<li>
-									  <a href="./claimTask.php" class="button small">Claim Task</a>
+									  <a href="./claimTask.php" class="button special small">Claim Task</a>
 									</li>
 									<li>
-									  <a href="" class="button Small">Download Preview</a> <br>
+									  <a href="#" class="button special small">Task Preview</a>
 									</li>
 							  <?php } ?>
 								<li>
@@ -126,4 +123,5 @@
 
 </body>
 </html>
+
 		

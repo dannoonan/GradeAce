@@ -25,8 +25,10 @@
 						}
 						
 						if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){ 
+
 						printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
 						printf("<li><a href=\"./CreateTask.php\">Create a Task</a></li>");
+
 						} else {
 							printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
 						}
@@ -55,7 +57,7 @@
 								
 							</header>
 							<?php
-							require_once('load.php');
+
 								
 							
 							if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){
@@ -70,10 +72,12 @@
 								}
 								if (!is_null($tasks)) {
 									foreach ($tasks as $task) {
+
 										$num=$task->getTaskId();
 										$result=mysqli_query($db,"SELECT 1 FROM statustable WHERE `TaskId` = '$num' && `Status` = 0");
 										if($result && mysqli_num_rows($result) > 0)
 											printf("<h2> <a href=\"./taskDisplay.php?id=%s\"> %s  -  %s</h2>", $task->getTaskId(), $task->getTitle(), $task->getTaskType());
+
 									}
 								}
 							}

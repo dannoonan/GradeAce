@@ -67,14 +67,16 @@ class MySQLiAccess {
         $data = array();
 		$newResult = array();
 		
-		
+
 		
 		
 		
 		
 		if ($result = $conn->query($sql)) {
+
 			
 			if($result){
+
 				$newResult = $result;
 			}
         }else{
@@ -109,12 +111,15 @@ class MySQLiAccess {
         }else{
 			$sql = "CALL $procedure";
 		}
+
 		$result = mysqli_query($conn, $sql);
 		
 		if($result){
 			$ret = true;
+
 		}else{
 			$ret = false;
+
 			echo "Error: " . $sql . "<br>" . $conn->error;
 		}
 		return $ret;

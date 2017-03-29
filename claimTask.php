@@ -1,3 +1,4 @@
+
 <?php
     require_once __DIR__.'./daos/TaskDAO.class.php';
 	require_once __DIR__.'./daos/TagDAO.class.php';
@@ -44,7 +45,7 @@
 							
 							</header>
 							<?php
-								require_once('load.php');
+								
 							
 							if (isset($_SESSION["UserId"])&& isset($_SESSION["TempTaskId"])) {
 								
@@ -60,8 +61,6 @@
 								
 								 if (!is_null($task)&&!is_null($TaskId)){
 										
-										$sql="DELETE FROM statustable WHERE TaskId = $TaskId";
-										mysqli_query($db, $sql);
 										$claimResult = $taskDAO->claimTask($TaskId);
 										if($claimResult){
 											?>
@@ -119,4 +118,5 @@
 
 </body>
 </html>
+
 		
