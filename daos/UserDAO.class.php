@@ -12,8 +12,9 @@ class UserDAO {
             $args = $UserId.", ".MySQLiAccess::prepareString($Email);
             $result = MySQLiAccess::call("getUser", $args);
 			
+			
             if ($result) {
-				$resultArray = $result->fetch_array();
+				$resultArray = $result->fetch_array();	
                 $user = ModelFactory::buildModel("User", $resultArray);
             }
         }

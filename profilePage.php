@@ -45,9 +45,21 @@
 							<?php
 							require_once('load.php');
 								if(isset($_SESSION['UserName'])){
+									
 									$id = $_SESSION['UserId'];
-								printf("<h1>%s</h1>", $_SESSION['UserName']);
-								printf("<h2>Reputation: %s</h2>", $id);
+									$userDAO = new UserDAO();
+									$user = $userDAO->getUser($id, "");
+									
+									if(!is_null($user)){
+										printf("<h1>%s</h1>", $user->getFirstName());
+										printf("<h2>Reputation: %d</h2>", $user->getReputation());
+										printf("<h2>Course: %s</h2>", $user->getCourse());
+										
+									}
+								
+								
+								
+								
 								}else{
 									printf("<h1>Welcome to <strong>GradeAce</strong></h1>");
 									?>

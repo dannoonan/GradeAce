@@ -59,7 +59,7 @@ class ModelFactory {
 			$retVal ->setPassword($modelData["Password"]);
 		}
 		if (isset($modelData['Reputation'])) {
-			$retVal ->setPassword($modelData["Reputation"]);
+			$retVal ->setReputation($modelData["Reputation"]);
 		}
 		//The new User object is returned
 		return $retVal;

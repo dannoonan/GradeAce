@@ -77,7 +77,7 @@ BEGIN
 	if UserId='' then set UserId=null;end if;
 	if Email='' then set Email=null;end if;
 	
-	select u.UserId, u.Email, u.`FirstName`, u.`LastName`, u.Password  
+	select u.UserId, u.Email, u.`FirstName`, u.`LastName`, u.`Course`, u.Password, u.Reputation  
         from Users u  
         where   (UserId is null or u.UserId = UserId)
             and (Email is null or (LOWER(u.Email) = LOWER(Email)));
@@ -121,6 +121,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ownsTask`( IN `UserId` INT(10), IN 
 BEGIN
 
 INSERT INTO `Owned`(UserId, TaskId) VALUES (UserId, TaskId);
+
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `claimedTask`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `claimedTask`( IN `UserId` INT(10), IN `TaskId` INT(10))
+    READS SQL DATA
+BEGIN
+
+INSERT INTO `Claimed`(UserId, TaskId) VALUES (UserId, TaskId);
 
 END$$
 

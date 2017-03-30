@@ -81,7 +81,7 @@
 		
 	}*/
 	
-	public static function claimTask($TaskId){
+	public static function claimTask($TaskId, $UserId){
 		
 		$args = null;
 		$retVal = false;
@@ -90,14 +90,16 @@
 		if(!is_null($TaskId)){
 			
 			$args = $TaskId;
+			$args2 =$UserId.", ".$TaskId;
 
 			echo "test var types////";
 
 			
 			//$result = MySQLiAccess::call("claimTask", $args);
 			$result = MySQLiAccess::call2("claimTask", $args);
+			$result2 = MySQLiAccess::call2("claimedTask", $args2);
 			
-			if($result){
+			if($result&&$result2){
 				$retVal = true;
 
 				echo "task has been claimed////";

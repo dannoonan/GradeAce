@@ -62,7 +62,8 @@
 										
 										$sql="DELETE FROM statustable WHERE TaskId = $TaskId";
 										mysqli_query($db, $sql);
-										$claimResult = $taskDAO->claimTask($TaskId);
+										$claimResult = $taskDAO->claimTask($TaskId, $UserId);
+										
 										if($claimResult){
 											?>
 											<h1>Task claimed successfully</h1>
