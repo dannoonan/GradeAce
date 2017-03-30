@@ -27,7 +27,7 @@
 						if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){ 
 						//printf("<li><a href=\"./createTask.php\" class=\"\">Sell</a></li>");
 						printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
-						printf("<li><a href=#>Create a Task</a></li>");
+						printf("<li><a href=\"./CreateTask.php\">Create a Task</a></li>");
 					    printf("<li><a href=\"./profilePage.php\">Profile</a></li>");
 						} else {
 							printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
@@ -61,11 +61,11 @@
 								
 								 if (!is_null($task) ){
 										printf("<h1> %s </h1> \n", $task->getTitle());
-										printf("<h2>Description: %s </h2>", $task->getDescription() );
-										printf("<h2>Pages: %s</h2>", $task->getPages());
-										printf("<h2>Words: %s</h2>",$task->getWords() );
-										printf("<h2>Claim deadline: %s</h2>",$task->getClaimDate() );
-										printf("<h2>Complete Task deadline: %s</h2>",$task->getCompleteDate() );
+										printf("<h2>Description:  </h2><h4>%s</h4>", $task->getDescription() );
+										printf("<h2>Pages: </h2><h4>%s</h4>", $task->getPages());
+										printf("<h2>Words: </h2><h4>%s</h4>",$task->getWords() );
+										printf("<h2>Claim deadline: </h2><h4>%s</h4>",$task->getClaimDate() );
+										printf("<h2>Complete Task deadline: </h2><h4>%s</h4>",$task->getCompleteDate() );
 								} else {
 										printf("Task not found.");
 								}
@@ -80,6 +80,7 @@
 									session_start();
 								}
 								if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != '') { 
+									if (!isset($_GET["function"])) {
 							  ?>
 									<li>
 									  <a href="./claimTask.php" class="button small">Claim Task</a>
@@ -87,7 +88,23 @@
 									<li>
 									  <a href="" class="button Small">Download Preview</a> <br>
 									</li>
-							  <?php } ?>
+							  <?php 
+									} else if (isset($_GET["function"]) && $_GET["function"] == 1) {
+								?>
+									<li>
+									  <a href="./reviewTask.php" class="button small">Review Task</a>
+									</li>
+								
+								<?php
+									}else if (isset($_GET["function"]) && $_GET["function"] == 2) {
+								?>
+									<li>
+									  <a href="./deleteTask.php" class="button small">Delete Task</a>
+									</li>
+								<?php
+									}
+								}
+								?>
 								<li>
 								  <a href="./index.php" class="button small">Back</a>
 								</li>

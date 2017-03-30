@@ -51,7 +51,7 @@
         return $ret;	
     }	
 	
-	/*public static function claimTask( $UserId, $TaskId){
+	/*public static function changeTaskStatus( $UserId, $TaskId){
 		
 		$args = null;
 		$retVal = false;

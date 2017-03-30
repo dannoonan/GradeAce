@@ -188,6 +188,20 @@ WHERE TaskId = rTaskId;
 		
 END$$
 
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `updateStatus`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateStatus`(IN `sTaskId` INT(10), IN `newStatus` INT(10))
+    READS SQL DATA
+BEGIN
+	
+UPDATE `StatusTable`
+SET Status = newStatus
+WHERE TaskId = sTaskId;
+
+		
+END$$
+
 DELIMITER ;
 -- --------------------------------------------------------
 -- --------------------------------------------------------

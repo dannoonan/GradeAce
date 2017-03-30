@@ -1,5 +1,6 @@
 <?php
 	
+	
 	session_start();
 	
 	require_once('load.php');
@@ -97,8 +98,17 @@
 			mysqli_query($db,"INSERT INTO flag(TaskId, IsFlagged) Values ('$TaskId', 'false')");
 			mysqli_query($db,"INSERT INTO statustable(TaskId) Values ('$TaskId')");
 			
-			$userId = $_SESSION['id'];
+			$userId = $_SESSION['UserId'];
 			mysqli_query($db,"INSERT INTO owned(UserId, TaskId) Values ('$userId', '$TaskId')");
+			
+			
+			
+			
+			
+			
+			
+			
+			
 						
 			header("location: index.php");
 		}
