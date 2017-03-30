@@ -26,6 +26,7 @@
 				
 				$result = $taskDAO->addReview($notes, $taskId);
 				
+				
 				if($result){
 					echo "Review added successfully";
 				}else{
@@ -36,7 +37,7 @@
 			
 		}
 		
-		
+	header("Location:./index.php");	
 	}
 ?>
 

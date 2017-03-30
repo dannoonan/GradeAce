@@ -117,15 +117,23 @@
 	
 	public static function addReview($notes, $taskId){
 		
-		$args = $notes.", ".MySQLiAccess::prepareString($taskId);
+		$args = MySQLiAccess::prepareString($notes).", ".$taskId;
+		$status =2;
+		$args2 = $taskId.",".$status;
 		
 		$result = MySQLiAccess::call2("addReview", $args);
+		$result2 = MySQLiAccess::call2("updateStatus", $args2);
 		
 		
-		if($result){
-			echo "Review added";
+		if($result&&$result2){
+			echo "Review added and status changed";
+			return $result;
+		}else if($result){
+			echo "Review added - status not changed";
+			return $result;
 		}else{
 			echo "Failed to add review";
+			return $result;
 		}
 		
 		
