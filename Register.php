@@ -111,11 +111,13 @@
 								<input type="email" name="Email" placeholder="Please enter your email">
 								<select name="Course">
 									<option value="">Select...</option>
-									<option value="Computers">Computers</option>
+									<option value="Computing">Computing</option>
 									<option value="Engineering">Engineering</option>
-									<option value="Law">Law</option>
+									<option value="Humanities">Humanities</option>
+									<option value="Business">Business</option>
 									<option value="Science">Science</option>
-									<option value="Arts">Arts</option>
+									<option value="Medicine">Medicine</option>
+									<option value="Law">Law</option>
 								</select>
 								<input type="password" name="Password" placeholder="Please enter your password">
 								<input type="password" name="Password2" placeholder="Please enter your password again">

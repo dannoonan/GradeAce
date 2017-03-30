@@ -70,7 +70,12 @@
 											<?php
 											
 										}else{
-											echo "Failed to claim task";
+											?>
+											
+											<h1>Failed to claim task</h1>
+											
+											
+										<?php	
 										}
 										
 										

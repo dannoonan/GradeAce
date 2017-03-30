@@ -234,6 +234,7 @@ CREATE TABLE IF NOT EXISTS `Tasks` (
 `TaskId` int(10) unsigned NOT NULL AUTO_INCREMENT,
 `Title` varchar(128) NOT NULL,
 `TaskType` varchar(128) NOT NULL,
+`TaskField` varchar(128) NOT NULL,
 `Description` varchar(4096) NOT NULL,
 `Pages` int(5) unsigned NOT NULL,
 `Words` int(10) unsigned NOT NULL,

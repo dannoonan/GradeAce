@@ -29,7 +29,7 @@
 						//printf("<li><a href=\"./createTask.php\" class=\"\">Sell</a></li>");
 						printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
 					} else {
-						printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
+						printf("<li><a href=\"./Register.php\" class=\"\">Register</a></li>");
 					}
           ?>
 				</ul>

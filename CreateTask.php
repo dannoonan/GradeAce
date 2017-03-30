@@ -11,6 +11,7 @@
 		{
 			$Title=($_POST['Title']);
 			$TaskType=($_POST['TaskType']);
+			$TaskField=($_POST['TaskField']);
 			$Description=($_POST['Description']);
 			$Pages=($_POST['Pages']);
 			$Words=($_POST['Words']);
@@ -46,7 +47,7 @@
 			mysqli_query($db, $query) or die('Error, query failed'); 
 			$FilePath=mysqli_insert_id($db)or die(mysqli_error($db));
 			
-			$sql = "INSERT INTO tasks(Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
+			$sql = "INSERT INTO tasks(Title, TaskType, TaskField, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$TaskField', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
 			mysqli_query($db, $sql);
 				
 			$TaskId = mysqli_insert_id($db)or die(mysqli_error($db));
@@ -154,12 +155,24 @@
 							<input type="text" name="Title" placeholder="*Please enter the task title.">
 							<select name="TaskType">
 								<option value="">*Select your task type...</option>
-								<option value="Thesis">MSc Thesis</option>
-								<option value="Dissertation">BSc Dissertation</option>
+								<option value="MA Thesis">MA Thesis</option>
+								<option value="BA Dissertation">BA Dissertation</option>
+								<option value="MSc Thesis">MSc Thesis</option>
+								<option value="BSc Dissertation">BSc Dissertation</option>
 								<option value="Report">Project Report</option>
 								<option value="Thesis">PhD Thesis</option>
 								<option value="Assignment">Assignment</option>
 								<option value="CRP">Conference Research Paper</option>
+							</select>
+							<select name="TaskField">
+								<option value="">*Select the field of study to which your task belongs...</option>
+								<option value="Computing">Computing</option>
+								<option value="Engineering">Engineering</option>
+								<option value="Humanities">Humanities</option>
+								<option value="Business">Business</option>
+								<option value="Science">Science</option>
+								<option value="Medicine">Medicine</option>
+								<option value="Law">Law</option>
 							</select>
 							<input type="text" name="Description" placeholder="*Please enter the task description.">
 							<input type="text" name="Tag1" placeholder="(Optional)Please enter a tag.">

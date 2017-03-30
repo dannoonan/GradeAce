@@ -30,6 +30,7 @@
 						printf("<li><a href=\"./profilePage.php\">Profile</a></li>");
 						} else {
 							printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
+							printf("<li><a href=\"./Register.php\" class=\"\">Register</a></li>");
 						}
 					?>
 				</ul>
@@ -64,7 +65,13 @@
 							require_once('load.php');
 							
 							if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){
-
+								
+								$userId = $_SESSION['UserId'];
+								
+								$getCourse = mysqli_query($db, "SELECT `Course` FROM users WHERE `UserId`= '$userId'");
+								$row = mysqli_fetch_assoc($getCourse);
+								$userCourse = $row['Course'];
+								
 								$taskDao = new TaskDAO();
 								try {
 									
@@ -78,7 +85,8 @@
 
 										$num=$task->getTaskId();
 										$result=mysqli_query($db,"SELECT 1 FROM statustable WHERE `TaskId` = '$num' && `Status` = 0");
-										if($result && mysqli_num_rows($result) > 0)
+										$result2=mysqli_query($db,"SELECT 1 FROM tasks WHERE `TaskId` = '$num' && `TaskField` = '$userCourse'");
+										if(($result && mysqli_num_rows($result) > 0)&&($result2 && mysqli_num_rows($result2) > 0))
 											printf("<h2> <a href=\"./taskDisplay.php?id=%s\"> %s  -  %s</h2>", $task->getTaskId(), $task->getTitle(), $task->getTaskType());
 
 									}
