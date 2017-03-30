@@ -260,6 +260,19 @@ CONSTRAINT FOREIGN KEY (`TaskId`) REFERENCES `Tasks`(`TaskId`) ON DELETE CASCADE
 );
 
 --
+-- Table structure for table `Claimed`
+--
+
+CREATE TABLE IF NOT EXISTS `Claimed` (
+`Numbered` int(10) unsigned NOT NULL AUTO_INCREMENT, 
+`UserId` int(10) unsigned NOT NULL,
+`TaskId` int(10) unsigned NOT NULL ,
+PRIMARY KEY (`Numbered`),
+CONSTRAINT FOREIGN KEY (`UserId`) REFERENCES `Users`(`UserId`)ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT FOREIGN KEY (`TaskId`) REFERENCES `Tasks`(`TaskId`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+--
 -- Table structure for table `Flag`
 --
 

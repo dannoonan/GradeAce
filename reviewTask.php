@@ -1,9 +1,13 @@
 <?php
 	
+	 require_once __DIR__.'./daos/TaskDAO.class.php';
+	 require_once __DIR__.'./daos/TagDAO.class.php';
+	
+	
 	session_start();
 	require_once('load.php');
 	
-	if(isset(review_btn)){
+	if(isset($_POST['review_btn'])){
 		
 		$notes = $_POST['notes'];
 		$taskId = $_SESSION["TempTaskId"];
@@ -34,7 +38,6 @@
 		
 		
 	}
-	
 ?>
 
 <html>

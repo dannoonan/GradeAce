@@ -78,7 +78,8 @@
 									foreach ($tasks as $task) {
 										$num=$task->getTaskId();
 										$result=mysqli_query($db,"SELECT 1 FROM statustable WHERE `TaskId` = '$num' && `Status` = 1");
-										$result2=mysqli_query($db, "SELECT 1 FROM owned WHERE `TaskId` = '$num' && `UserId` = '$userId'");
+										$result2=mysqli_query($db, "SELECT 1 FROM claimed WHERE `TaskId` = '$num' && `UserId` = '$userId'");
+										
 										if(($result && mysqli_num_rows($result) > 0) && ($result2 && mysqli_num_rows($result2) > 0)){
 											printf("<h2> <a href=\"./taskDisplay.php?id=%s&function=%d\">%s  -  %s</h2>", $task->getTaskId(), $function, $task->getTitle(), $task->getTaskType());
 										}

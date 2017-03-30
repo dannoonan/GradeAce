@@ -115,9 +115,9 @@
 		
 	}
 	
-	public static function addNotes($notes, $taskId){
+	public static function addReview($notes, $taskId){
 		
-		$args = $notes.", ".$taskId;
+		$args = $notes.", ".MySQLiAccess::prepareString($taskId);
 		
 		$result = MySQLiAccess::call2("addReview", $args);
 		
