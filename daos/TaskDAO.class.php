@@ -92,7 +92,7 @@
 			$args = $TaskId;
 			$args2 =$UserId.", ".$TaskId;
 
-			echo "test var types////";
+			
 
 			
 			//$result = MySQLiAccess::call("claimTask", $args);
@@ -102,7 +102,6 @@
 			if($result&&$result2){
 				$retVal = true;
 
-				echo "task has been claimed////";
 
 			}
 			else{

@@ -52,11 +52,18 @@
 								$displayTaskId = $_GET["id"];
 								$_SESSION["TempTaskId"]= $displayTaskId;
 								$taskDAO = new TaskDAO();
+								$tagDAO = new TagDAO();
 								
 								try{
 									$task = $taskDAO->getTask($displayTaskId);
 								}catch(exception $e){
 									$task = null;
+								}
+								
+								try{
+									$tags = $tagDAO->getTags($displayTaskId);
+								}catch(exception $e){
+									$tags = null;
 								}
 								
 								 if (!is_null($task) ){
@@ -66,6 +73,12 @@
 										printf("<h2>Words: </h2><h4>%s</h4>",$task->getWords() );
 										printf("<h2>Claim deadline: </h2><h4>%s</h4>",$task->getClaimDate() );
 										printf("<h2>Complete Task deadline: </h2><h4>%s</h4>",$task->getCompleteDate() );
+										if(!is_null($tags)){
+											printf("<h2>Tags: </h2>");
+											foreach($tags as $tag){
+												printf("<h2>%s</h2>", $tag->getTag());
+											}
+										}
 								} else {
 										printf("Task not found.");
 								}

@@ -103,6 +103,26 @@ END$$
 
 -- --------------------------------------------------------
 
+DROP PROCEDURE IF EXISTS `getTags`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getTags`( IN `TaskId` VARCHAR(128))
+    READS SQL DATA
+BEGIN
+
+
+	if TaskId='' then set TaskId=null;end if;
+	
+	
+	select Tag 
+        from tags 
+        where TagId IN 
+			(select TagId
+				from TaskTags t
+					where t.TaskId is null or t.TaskId = TaskId);
+
+END$$
+
+-- --------------------------------------------------------
+
 
 DROP PROCEDURE IF EXISTS `getAllTasks`$$
 CREATE DEFINER = `root`@`localhost` PROCEDURE `getAllTasks` ()

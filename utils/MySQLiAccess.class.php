@@ -115,7 +115,7 @@ class MySQLiAccess {
 		$result = mysqli_query($conn, $sql);
 		
 		if($result){
-			$ret = true;
+			$ret = $result;
 
 		}else{
 			$ret = false;

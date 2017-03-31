@@ -7,26 +7,35 @@
  Class TagDAO {
 	 
 	 
-	public static function getTag($TagId){
+	public static function getTags($TaskId){
 		 
 		$tag = null;
 		 
-		if(!is_null($TagId)){
+		if(!is_null($TaskId)){
+			
 			/*Creates args to pass to the MySQLiAccess class's call method, thereby using an SQL statment
-			to retrieve the desired tag from the database*/
-			$args = $TagId;
-			
+			to retrieve the desired tags from the database*/
+			$args = $TaskId;
+			$ret = null;
 			//The results from the database, after being retrieved by the MySQLiAccess call method, are stored in the variable '$result'
-			$result = MySQLiAccess::call("getTag", $args);
+			$result = MySQLiAccess::call2("getTags", $args);
 			
-			//If there is a result, the buildModel method is called from the ModelFactory class to construct a new Task object
+			
+			//If there is a result, the buildModel method is called from the ModelFactory class to construct a new Tag object
             if ($result) {
-                $tag = ModelFactory::buildModel("Tag", $result[0]);
+				$ret = array();
+				
+				foreach ($result as $row) {
+					 $ret[] = ModelFactory::buildModel("Tag", $row);
+				}
+				
             }
         }
-        return $tag;
+        return $ret;
 			 
 	}
+	
+	
 		 
 	//Inserts a new tag into the database
 	private static function insert(&$tag) {

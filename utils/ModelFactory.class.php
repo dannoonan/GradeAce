@@ -70,11 +70,11 @@ class ModelFactory {
 		$retVal = new Tag();
 		//If the TagId field is not set, then the value is set to that of the same field in the modelData
 		if (isset($modelData['TagId'])) {
-			$retVal ->setUserId($modelData["TagId"]);
+			$retVal ->setTagId($modelData["TagId"]);
 		}
 		
 		if (isset($modelData['Tag'])) {
-			$retVal ->setFirstName($modelData["Tag"]);
+			$retVal ->setTag($modelData["Tag"]);
 		}
 		
 		//The new Tag object is returned
