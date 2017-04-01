@@ -73,7 +73,6 @@ class MySQLiAccess {
 		
 		
 		if ($result = $conn->query($sql)) {
-
 			
 			if($result){
 
