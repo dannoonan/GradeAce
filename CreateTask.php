@@ -75,7 +75,7 @@
 			
 			//$Task = $TaskDAO->insert($Task);
 			
-			$sql = "INSERT INTO tasks(Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES(, '$TaskType', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
+			$sql = "INSERT INTO tasks(Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
 			mysqli_query($db, $sql);
 				
 			$TaskId = mysqli_insert_id($db)or die(mysqli_error($db));
