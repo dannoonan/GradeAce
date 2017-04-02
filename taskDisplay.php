@@ -104,8 +104,8 @@
 									</li>
 								<?php
 									 if ( isset($_REQUEST['ok']) ) {
-											$displayTaskId = $_SESSION["TempTaskId"];
-											MySQLiAccess::Download($displayTaskId);
+											$TaskId = $_SESSION["TempTaskId"];
+											MySQLiAccess::Download($TaskId);
 									 }
 								?>
 									<li>

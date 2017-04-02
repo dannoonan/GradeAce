@@ -3,6 +3,8 @@
 	 require_once __DIR__.'/daos/FileDAO.class.php';  
 	 require_once __DIR__.'/daos/UserDAO.class.php'; 	 
 	 require_once __DIR__.'/models/User.class.php';
+	 require_once __DIR__.'/models/PdfFile.class.php';
+	 require_once __DIR__.'./utils/MySQLiAccess.class.php';
 
 	
 	session_start();
@@ -29,7 +31,6 @@
 			}
 			else
 			{
-				
 				$TaskDAO=new TaskDAO();
 				$FileDAO=new FileDAO();
 				
@@ -37,13 +38,6 @@
 				$tmpName  = $_FILES['pdf1']['tmp_name'];
 				$fileSize = $_FILES['pdf1']['size'];
 				$fileType = $_FILES['pdf1']['type'];
-				
-				/*$File=new PdfFile();
-
-				$File->setFileName($fileName);
-				$File->setTmpName($tmpName);
-				$File->setFileSize($fileSize);
-				$File->setFileType($fileType);*/
 				
 			$fp      = fopen($tmpName, 'r');
 			$content = fread($fp, filesize($tmpName));
@@ -54,36 +48,16 @@
 			{
 				$fileName = addslashes($fileName);
 			}
-			
-				/*$File->setContent($content);
-				$File = $FileDAO->insert($File);*/
 
 			$query = "INSERT INTO upload (fileName, fileSize, fileType, content) VALUES ('$fileName', '$fileSize', '$fileType', '$content')";
 			
 			mysqli_query($db, $query) or die('Error, query failed'); 
 			$FilePath=mysqli_insert_id($db)or die(mysqli_error($db));
-
-			//$FilePath=$File->getFileId();
-			//echo $File->getFileName();
-			
-			/*$Task = new Task();
-			$Task->setTitle($Title);
-			$Task->setTaskType($TaskType);
-			$Task->setDescription($Description);
-			$Task->setPages($Pages);
-			$Task->setWords($Words);
-			$Task->setFileFormat($FileFormat);
-			$Task->setFilePath($FilePath);
-			$Task->setClaimDate($ClaimDate);
-			$Task->setCompleteDate($CompleteDate);*/
-			
-			//$Task = $TaskDAO->insert($Task);
 			
 			if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){
 				$userId = $_SESSION['UserId'];
 			}
-			
-			
+
 			$user=new user();
 			$userDAO=new UserDAO();
 			$user=$userDAO->getUser($userId,'');
@@ -93,8 +67,7 @@
 			mysqli_query($db, $sql);
 				
 			$TaskId = mysqli_insert_id($db)or die(mysqli_error($db));
-			//$TaskId = $Task->getTaskId();
-		
+			
 			for($i=0; $i<4; $i++)
 			{
 				$cont=false;
@@ -144,16 +117,7 @@
 			
 			$userId = $_SESSION['UserId'];
 			mysqli_query($db,"INSERT INTO owned(UserId, TaskId) Values ('$userId', '$TaskId')");
-			
-			
-			
-			
-			
-			
-			
-			
-			
-						
+					
 			header("location: index.php");
 		}
 	}

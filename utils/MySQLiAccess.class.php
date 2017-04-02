@@ -1,5 +1,8 @@
 <?php 
+	require_once __DIR__.'/../daos/TaskDAO.class.php';   
+	require_once __DIR__.'/../models/Task.class.php';
 class MySQLiAccess {
+
 	
 	private $error_msg     = '';
 	private $connection;
@@ -140,7 +143,11 @@ class MySQLiAccess {
 		
 		unset($password); unset($dbName); unset($server);  unset($username);
 		
-		$query = "SELECT * FROM upload WHERE fileId = $TaskId";
+		$TaskDAO=new TaskDAO();
+		$task=$TaskDAO->getTask($TaskId);
+		$FileId=$task->getFilePath();
+		
+		$query = "SELECT * FROM upload WHERE fileId = $FileId";
 		$result = mysqli_query($conn,$query) 
                      or die('Error, query failed');
 		list($id, $file, $type, $size,$content) =   mysqli_fetch_array($result);
