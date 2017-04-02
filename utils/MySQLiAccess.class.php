@@ -47,6 +47,8 @@ class MySQLiAccess {
 		
         if (!is_array($procArgs)&& !is_null($procArgs)) {
             $sql = "CALL $procedure ($procArgs)";
+			if($procedure == "getFile")
+			echo $sql;
         } else if (!is_null($procArgs)) {
             $sql = "CALL $procedure ".implode(', ',$procArgs);
         }else{
@@ -66,12 +68,7 @@ class MySQLiAccess {
         $conn = $db->connection;
         $data = array();
 		$newResult = array();
-		
 
-		
-		
-		
-		
 		if ($result = $conn->query($sql)) {
 			
 			if($result){
@@ -130,5 +127,33 @@ class MySQLiAccess {
 		$x="'".$string."'";
 		return $x;
 	}
+	
+	public static function Download($TaskId){
+        $conn = false;
+		$ret = false;
+        $dbName = "gradeace";	//Settings::get('database.database');
+        $server = "localhost";  //Settings::get('database.server');
+		//Username can be changed accordingly
+        $username = "root";	    //Settings::get('database.username');
+        $password = "";	        //Settingstings::get('database.password');
+		$conn = mysqli_connect($server, $username, $password, $dbName);
+		
+		unset($password); unset($dbName); unset($server);  unset($username);
+		
+		$query = "SELECT * FROM upload WHERE fileId = $TaskId";
+		$result = mysqli_query($conn,$query) 
+                     or die('Error, query failed');
+		list($id, $file, $type, $size,$content) =   mysqli_fetch_array($result);
+           //echo $id . $file . $type . $size;
+		header("Content-length: $size");
+		header("Content-type: $type");
+		header("Content-Disposition: attachment; filename=$file");
+		ob_clean();
+		flush();
+		echo $content;
+		mysqli_close($connection);
+		exit;
+	}
+
 } 
 ?>

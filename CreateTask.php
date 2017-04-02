@@ -1,6 +1,9 @@
 <?php
 	 require_once __DIR__.'/daos/TaskDAO.class.php';   
-	 require_once __DIR__.'/daos/FileDAO.class.php';   
+	 require_once __DIR__.'/daos/FileDAO.class.php';  
+	 require_once __DIR__.'/daos/UserDAO.class.php'; 	 
+	 require_once __DIR__.'/models/User.class.php';
+
 	
 	session_start();
 	
@@ -35,12 +38,12 @@
 				$fileSize = $_FILES['pdf1']['size'];
 				$fileType = $_FILES['pdf1']['type'];
 				
-				$File=new PdfFile();
+				/*$File=new PdfFile();
 
 				$File->setFileName($fileName);
 				$File->setTmpName($tmpName);
 				$File->setFileSize($fileSize);
-				$File->setFileType($fileType);
+				$File->setFileType($fileType);*/
 				
 			$fp      = fopen($tmpName, 'r');
 			$content = fread($fp, filesize($tmpName));
@@ -52,15 +55,16 @@
 				$fileName = addslashes($fileName);
 			}
 			
-				$File->setContent($content);
-				$File = $FileDAO->insert($File);
+				/*$File->setContent($content);
+				$File = $FileDAO->insert($File);*/
 
-			//$query = "INSERT INTO upload (name, size, type, content ) VALUES ('$fileName', '$fileSize', '$fileType', '$content')";
+			$query = "INSERT INTO upload (fileName, fileSize, fileType, content) VALUES ('$fileName', '$fileSize', '$fileType', '$content')";
 			
-			//mysqli_query($db, $query) or die('Error, query failed'); 
-			//$FilePath=mysqli_insert_id($db)or die(mysqli_error($db));
+			mysqli_query($db, $query) or die('Error, query failed'); 
+			$FilePath=mysqli_insert_id($db)or die(mysqli_error($db));
 
-			$FilePath=$File->getFileId();
+			//$FilePath=$File->getFileId();
+			//echo $File->getFileName();
 			
 			/*$Task = new Task();
 			$Task->setTitle($Title);
@@ -75,7 +79,17 @@
 			
 			//$Task = $TaskDAO->insert($Task);
 			
-			$sql = "INSERT INTO tasks(Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
+			if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){
+				$userId = $_SESSION['UserId'];
+			}
+			
+			
+			$user=new user();
+			$userDAO=new UserDAO();
+			$user=$userDAO->getUser($userId,'');
+			$TaskField=$user->getCourse();
+			
+			$sql = "INSERT INTO tasks(Title, TaskType, TaskField, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$TaskField', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
 			mysqli_query($db, $sql);
 				
 			$TaskId = mysqli_insert_id($db)or die(mysqli_error($db));

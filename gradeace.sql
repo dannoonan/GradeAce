@@ -22,10 +22,10 @@ USE `gradeace`;
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `addTask`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addTask`(IN `Title` VARCHAR(128), IN `TaskType` VARCHAR(128), IN `Description` VARCHAR(128), IN `Pages` INT(5), IN `Words` INT(10), IN `FileFormat` CHAR(128), IN `FilePath` VARCHAR(128), IN `ClaimDate` DATETIME, IN `CompleteDate` DATETIME, IN `Notes` VARCHAR(300))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addTask`(IN `Title` VARCHAR(128), IN `TaskType` VARCHAR(128), IN `TaskField` VARCHAR(128), IN `Description` VARCHAR(128), IN `Pages` INT(5), IN `Words` INT(10), IN `FileFormat` CHAR(128), IN `FilePath` VARCHAR(128), IN `ClaimDate` DATETIME, IN `CompleteDate` DATETIME, IN `Notes` VARCHAR(300))
     READS SQL DATA
 BEGIN
-INSERT INTO `tasks`(TaskId, Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate, Notes) VALUES (NULL, Title, TaskType, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate, Notes);
+INSERT INTO `tasks`(TaskId, Title, TaskType, TaskField, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate, Notes) VALUES (NULL, Title, TaskType, TaskField, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate, Notes);
 END$$
 
 -- --------------------------------------------------------
@@ -373,7 +373,7 @@ CONSTRAINT FOREIGN KEY (`TaskId`) REFERENCES `Tasks`(`TaskId`) ON DELETE CASCADE
 
 CREATE TABLE IF NOT EXISTS `upload` (
 `fileId` INT NOT NULL AUTO_INCREMENT,
-`fileName` VARCHAR(30) NOT NULL,
+`fileName` VARCHAR(128) NOT NULL,
 `fileType` VARCHAR(30) NOT NULL,
 `fileSize` INT NOT NULL,
 `content` MEDIUMBLOB NOT NULL,

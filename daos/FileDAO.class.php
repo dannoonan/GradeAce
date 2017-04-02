@@ -42,12 +42,12 @@
 
 		$result = MySQLiAccess::call("addFile", $args);
 		
-		
         if ($result) {
             $PdfFile = self::getFile("''", $name);
         } else {
             $PdfFile = null;
         }
+		echo $PdfFile->getFileName();
 		return $PdfFile;
     }
 	
