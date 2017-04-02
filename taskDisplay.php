@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__.'./daos/TaskDAO.class.php';
 	require_once __DIR__.'./daos/TagDAO.class.php';
+	require_once __DIR__.'./utils/MySQLiAccess.class.php';
 ?>
 <html>
 <html>
@@ -99,8 +100,14 @@
 									  <a href="./claimTask.php" class="button small">Claim Task</a>
 									</li>
 									<li>
-									  <a href="" class="button Small">Download Preview</a> <br>
+									  <a href="?ok=.'$id'." class="button Small">Download Preview</a> <br>
 									</li>
+								<?php
+									 if ( isset($_REQUEST['ok']) ) {
+											$TaskId = $_SESSION["TempTaskId"];
+											MySQLiAccess::Download($TaskId);
+									 }
+								?>
 									<li>
 									  <a href=# class="button small">Flag Task</a>
 									</li>
