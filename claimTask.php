@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__.'./daos/TaskDAO.class.php';
 	require_once __DIR__.'./daos/TagDAO.class.php';
+	require_once __DIR__.'./daos/UserDAO.class.php';
 ?>
 <html>
 <html>
@@ -51,18 +52,35 @@
 								$TaskId = $_SESSION["TempTaskId"];
 								$UserId = $_SESSION["UserId"];
 								$taskDAO = new TaskDAO();
+								$UserDAO = new UserDAO();
+								
 								
 								try{
 									$task = $taskDAO->getTask($TaskId);
 								}catch(exception $e){
 									$task = null;
 								}
-								
+														
 								 if (!is_null($task)&&!is_null($TaskId)){
+										
+										$User = $UserDAO->getUser($UserId, null);
+										$UserEmail = $User->getEmail();
+										$TId=$task->getTaskId();
+										$OwnerId = ($taskDAO->getOwner($TId))->getUserId();
+										$Owner = $UserDAO->getUser($OwnerId, null);
+										$OwnerEmail = $Owner->getEmail();
 										
 										$sql="DELETE FROM statustable WHERE TaskId = $TaskId";
 										mysqli_query($db, $sql);
 										$claimResult = $taskDAO->claimTask($TaskId, $UserId);
+										
+										$to      = $OwnerEmail;
+										$subject = 'Task Claim';
+										$message = 'A user would like to claim the task '.$task->getTitle().'.\n Please forward on the file to '.$UserEmail;
+										$header = "From: noreply@example.com\r\n"; 
+											
+										//echo $UserEmail.", ".$OwnerEmail.", ".$task->getTitle();
+										//mail($to, $subject, $message, $header);
 										
 										if($claimResult){
 											?>
@@ -71,12 +89,7 @@
 											<?php
 											
 										}else{
-											?>
-											
-											<h1>Failed to claim task</h1>
-											
-											
-										<?php	
+											echo "Failed to claim task";
 										}
 										
 										

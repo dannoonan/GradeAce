@@ -10,7 +10,7 @@ class UserDAO {
         if (!is_null($UserId) || !is_null($Email)) {
 		
             $args = $UserId.", ".MySQLiAccess::prepareString($Email);
-            $result = MySQLiAccess::call("getUser", $args);
+            $result = MySQLiAccess::call2("getUser", $args);
 			
 			
             if ($result) {

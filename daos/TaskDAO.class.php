@@ -51,6 +51,24 @@
         return $ret;	
     }	
 	
+	public static function getOwner($TaskId){
+		$owner = null;
+		 
+		if(!is_null($TaskId)){
+			
+			$args = $TaskId;
+			
+			$result = MySQLiAccess::call2("getOwner", $args);
+			
+			if ($result) {
+				$resultArray = $result->fetch_array();
+                $owner = ModelFactory::buildModel("User", $resultArray);
+            }
+        }
+        return $owner;
+			 
+	}
+	
 	/*public static function changeTaskStatus( $UserId, $TaskId){
 		
 		$args = null;

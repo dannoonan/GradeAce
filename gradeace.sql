@@ -92,7 +92,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getTask`( IN `TaskId` VARCHAR(128))
 BEGIN
 
 
-	if TaskId='' then set TaskId=null;end if;
+	if TaskId='20' then set TaskId=null;end if;
 	
 	
 	select t.TaskId, t.Title, t.TaskType, t.Description, t.Words, t.Pages, t.FileFormat, t.FilePath, t.ClaimDate, t.CompleteDate ,t.Notes  
@@ -233,8 +233,18 @@ WHERE TaskId = sTaskId;
 		
 END$$
 
-DELIMITER ;
 -- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `getOwner`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getOwner`(IN `TaskId` INT(10))
+    READS SQL DATA
+BEGIN
+SELECT UserId 
+From Owned o 
+WHERE (o.TaskId=TaskId);
+END$$
+
+DELIMITER ;
 -- --------------------------------------------------------
 -- --------------------------------------------------------
 --
