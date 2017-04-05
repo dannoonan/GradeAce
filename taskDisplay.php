@@ -77,7 +77,9 @@
 										if(!is_null($tags)){
 											printf("<h2>Tags: </h2>");
 											foreach($tags as $tag){
-												printf("<h2>%s</h2>", $tag->getTag());
+												
+												printf("<h4>%s</h4>", $tag->getTag());
+												
 											}
 										}
 								} else {
