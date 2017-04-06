@@ -11,6 +11,7 @@
 		
 		$notes = $_POST['notes'];
 		$taskId = $_SESSION["TempTaskId"];
+		$userId = $_SESSION["UserId"];
 		
 		if(!is_null($notes)){
 			
@@ -25,6 +26,8 @@
 			if(!is_null($task)&&!is_null($taskId)){
 				
 				$result = $taskDAO->addReview($notes, $taskId);
+				$query = "UPDATE users SET Reputation = Reputation + '10' WHERE UserId = $userId";
+				mysqli_query($db, $query);
 				
 				
 				if($result){
