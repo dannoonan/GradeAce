@@ -74,6 +74,17 @@
 										printf("<h2>Words: </h2><h4>%s</h4>",$task->getWords() );
 										printf("<h2>Claim deadline: </h2><h4>%s</h4>",$task->getClaimDate() );
 										printf("<h2>Complete Task deadline: </h2><h4>%s</h4>",$task->getCompleteDate() );
+										
+										//Task Status
+										$status = $taskDAO->getTaskStatus($displayTaskId);
+										if($status == 0)
+											$statusString = "Unclaimed";
+										else if($status == 1)
+											$statusString = "Claimed";
+										else if($status = 2)
+											$statusString = "Reviewed";
+										printf("<h2>Task Status: </h2><h4>%s</h4>",$statusString);
+										
 										if(!is_null($tags)){
 											printf("<h2>Tags: </h2>");
 											foreach($tags as $tag){
@@ -127,6 +138,13 @@
 									  <a href="./deleteTask.php" class="button small">Delete Task</a>
 									</li>
 								<?php
+										if(!(is_null($task->getNotes()))){
+											?>
+											<li>
+												<a href="./viewReview.php" class="button small">View Reviewers Notes</a>
+											</li>
+											<?php
+										}
 									}
 								}
 								?>

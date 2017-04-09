@@ -51,6 +51,13 @@
         return $ret;	
     }	
 	
+	public static function getTaskStatus($TaskId)
+	{
+		$result = MySQLiAccess::call2("getTaskStatus", $TaskId);
+		$row = mysqli_fetch_assoc($result);
+		return $row['Status'] ;
+	}
+	
 	public static function getOwner($TaskId){
 		$owner = null;
 		 
@@ -67,6 +74,19 @@
         }
         return $owner;
 			 
+	}
+	
+	public static function getTaskClaimant($TaskId)
+	{
+		$claimant = null;
+		$args = $TaskId;
+		
+		$result = MySQLiAccess::call2("getTaskClaimant", $args);
+		if ($result) {
+				$resultArray = $result->fetch_array();
+                $claimant = ModelFactory::buildModel("User", $resultArray);
+            }
+		return $claimant;
 	}
 	
 	/*public static function changeTaskStatus( $UserId, $TaskId){

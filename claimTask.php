@@ -70,8 +70,6 @@
 										$Owner = $UserDAO->getUser($OwnerId, null);
 										$OwnerEmail = $Owner->getEmail();
 										
-										$sql="DELETE FROM statustable WHERE TaskId = $TaskId";
-										mysqli_query($db, $sql);
 										$claimResult = $taskDAO->claimTask($TaskId, $UserId);
 										
 										$to      = $OwnerEmail;

@@ -158,11 +158,11 @@ END$$
 -- --------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS `claimTask`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `claimTask`(IN `TaskId` INT(10))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `claimTask`(IN `rTaskId` INT(10))
     READS SQL DATA
 BEGIN
 
-INSERT INTO `StatusTable`(TaskId, Status) VALUES (TaskId, '1');
+UPDATE `StatusTable` SET Status=1 WHERE TaskId=rTaskId;
 
 END$$
 
@@ -231,6 +231,17 @@ SET Status = newStatus
 WHERE TaskId = sTaskId;
 
 		
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `getTaskClaimant`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getTaskClaimant`(IN `TaskId` INT(10))
+    READS SQL DATA
+BEGIN
+SELECT UserId 
+From claimed c 
+WHERE (c.TaskId=TaskId);
 END$$
 
 -- --------------------------------------------------------
