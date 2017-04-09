@@ -168,6 +168,18 @@ END$$
 
 -- --------------------------------------------------------
 
+DROP PROCEDURE IF EXISTS `CancelTask`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CancelTask`(IN `rTaskId` INT(10))
+    READS SQL DATA
+BEGIN
+
+UPDATE `StatusTable` SET Status=3 WHERE TaskId=rTaskId;
+
+END$$
+
+-- --------------------------------------------------------
+
+
 DROP PROCEDURE IF EXISTS `getTaskStatus`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getTaskStatus`(IN `TaskId` INT(10))
     READS SQL DATA

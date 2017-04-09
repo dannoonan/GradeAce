@@ -78,11 +78,13 @@
 										//Task Status
 										$status = $taskDAO->getTaskStatus($displayTaskId);
 										if($status == 0)
-											$statusString = "Unclaimed";
+											$statusString = "Pending Claim";
 										else if($status == 1)
 											$statusString = "Claimed";
-										else if($status = 2)
+										else if($status == 2)
 											$statusString = "Reviewed";
+										else if($status == 3)
+											$statusString = "Unclaimed";
 										printf("<h2>Task Status: </h2><h4>%s</h4>",$statusString);
 										
 										if(!is_null($tags)){
@@ -129,6 +131,7 @@
 								?>
 									<li>
 									  <a href="./reviewTask.php" class="button small">Review Task</a>
+									  <a href="./Cancel.php" class="button small">Cancel Claimed Task</a>
 									</li>
 								
 								<?php

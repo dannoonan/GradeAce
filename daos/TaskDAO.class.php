@@ -154,6 +154,27 @@
 		
 	}
 	
+	public static function CancelTask($taskId){
+		if(!is_null($taskId)){
+			
+			$args = $taskId;
+			
+			$result = MySQLiAccess::call2("CancelTask", $args);
+			
+			if($result){
+				$retVal = true;
+			}
+			else{
+				$retVal = false;
+				echo "Failed to Cancel Task claim";
+			}
+			
+		}else{
+			echo "TaskId not set";
+		}
+		return $retVal;
+	}
+	
 	public static function addReview($notes, $taskId){
 		
 		$args = MySQLiAccess::prepareString($notes).", ".$taskId;
