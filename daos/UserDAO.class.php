@@ -49,6 +49,27 @@ class UserDAO {
         }
     }
 	
+	public static function addban($UserId)
+	{
+		$args = $UserId;
+		$result = MySQLiAccess::call2("addban", $args);
+        return $result;
+	}
+	
+	public static function ban($UserId)
+	{
+		$args = $UserId;
+		$result = MySQLiAccess::call2("banUser", $args);
+        return $result;
+	}
+	
+	public static function IsBanned($UserId)
+	{
+		$result = MySQLiAccess::call2("IsBanned", $UserId);
+		$row = mysqli_fetch_assoc($result);
+		return $row['IsBanned'] ;
+	}
+	
 	public static function login($Email, $password) {
 
 		

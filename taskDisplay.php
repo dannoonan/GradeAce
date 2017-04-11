@@ -136,11 +136,7 @@
 								
 								<?php
 									}else if (isset($_GET["function"]) && $_GET["function"] == 2) {
-								?>
-									<li>
-									  <a href="./deleteTask.php" class="button small">Delete Task</a>
-									</li>
-								<?php
+								
 										if(!(is_null($task->getNotes()))){
 											?>
 											<li>
@@ -148,6 +144,16 @@
 											</li>
 											<?php
 										}
+									}
+									else if (isset($_GET["function"]) && $_GET["function"] == 3)
+									{?>
+										<li>
+											<a href="./Ban.php?function=1" class="button small">Unpublish Task</a>
+										</li>
+										<li>
+											<a href="./Ban.php?function=2" class="button small">Unpublish Task & Ban User</a>
+										</li>
+									<?php
 									}
 								}
 								?>

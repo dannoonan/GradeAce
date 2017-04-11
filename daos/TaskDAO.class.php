@@ -175,6 +175,27 @@
 		return $retVal;
 	}
 	
+	public static function deleteTask($taskId){
+		if(!is_null($taskId)){
+			
+			$args = $taskId;
+			
+			$result = MySQLiAccess::call2("deleteTask", $args);
+			
+			if($result){
+				$retVal = true;
+			}
+			else{
+				$retVal = false;
+				echo "Failed to delete Task claim";
+			}
+			
+		}else{
+			echo "TaskId not set";
+		}
+		return $retVal;
+	}
+	
 	public static function addReview($notes, $taskId){
 		
 		$args = MySQLiAccess::prepareString($notes).", ".$taskId;

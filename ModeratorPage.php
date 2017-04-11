@@ -1,7 +1,6 @@
 <?php
     require_once __DIR__.'./daos/TaskDAO.class.php';
 	require_once __DIR__.'./daos/TagDAO.class.php';
-	require_once __DIR__.'./daos/UserDAO.class.php';
 ?>
 <html>
 <html>
@@ -26,9 +25,9 @@
 						}
 						
 						if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){ 
-						//printf("<li><a href=\"./createTask.php\" class=\"\">Sell</a></li>");
 						printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
-						printf("<li><a href=#>Create a Task</a></li>");
+						printf("<li><a href=\"./CreateTask.php\">Create a Task</a></li>");
+						printf("<li><a href=\"./profilePage.php\">Profile</a></li>");
 						} else {
 							printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
 						}
@@ -42,67 +41,50 @@
 					<div class="row">
 						<div class="11u 12u(mobile)">
 							<header>
-							
-							</header>
 							<?php
-								require_once('load.php');
+								if(isset($_SESSION['UserName'])){
+								printf("<h1><u><strong>Flagged Tasks</strong></u></h1>");
+								}else{
+									printf("<h1>Welcome to <strong>GradeAce</strong></h1>");
+									?>
+									
+									<a href="./login.php" class="button small">Login</a>
+								<?php
+								}
+								
+							?>
+							</header>
 							
-							if (isset($_SESSION["UserId"])&& isset($_SESSION["TempTaskId"])) {
 								
-								$TaskId = $_SESSION["TempTaskId"];
-								$UserId = $_SESSION["UserId"];
-								$taskDAO = new TaskDAO();
-								$UserDAO = new UserDAO();
+							
+							<?php
+							require_once('load.php');
 								
-								
-								try{
-									$task = $taskDAO->getTask($TaskId);
-								}catch(exception $e){
-									$task = null;
+							
+							if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){
+								$uNum = $_SESSION['UserId'];
+								//function is a variable passed to the taskDisplay page as a get variable, in order that it displays the proper action buttons to complement this task
+								$function = 3;
+								$taskDao = new TaskDAO();
+								try {
+									
+									$tasks = $taskDao->getAllTasks();	
+									
+								} catch (Exception $e) {
+									$tasks = null;
 								}
-														
-								 if (!is_null($task)&&!is_null($TaskId)){
+								if (!is_null($tasks)) {
+									foreach ($tasks as $task) {
+										$num=$task->getTaskId();
+										$result=mysqli_query($db,"SELECT 1 FROM statustable WHERE `TaskId` = '$num'");
+										$result2=mysqli_query($db, "SELECT 1 FROM flag WHERE `TaskId` = '$num' && `IsFlagged` = '1'");
+										if(($result && mysqli_num_rows($result) > 0) && ($result2 && mysqli_num_rows($result2) > 0))
+											printf("<h2> <a href=\"./taskDisplay.php?id=%s&function=%d\">%s  -  %s</h2>", $task->getTaskId(), $function, $task->getTitle(), $task->getTaskType());
 										
-										$User = $UserDAO->getUser($UserId, null);
-										$UserEmail = $User->getEmail();
-										$TId=$task->getTaskId();
-										$OwnerId = ($taskDAO->getOwner($TId))->getUserId();
-										$Owner = $UserDAO->getUser($OwnerId, null);
-										$OwnerEmail = $Owner->getEmail();
-										
-										$claimResult = $taskDAO->claimTask($TaskId, $UserId);
-										$query = "UPDATE users SET Reputation = Reputation + '10' WHERE UserId = $UserId";
-										mysqli_query($db, $query);
-										
-										$to      = $OwnerEmail;
-										$subject = 'Task Claim';
-										$message = 'A user would like to claim the task '.$task->getTitle().'.\n Please forward on the file to '.$UserEmail;
-										$header = "From: noreply@example.com\r\n"; 
-											
-										//echo $UserEmail.", ".$OwnerEmail.", ".$task->getTitle();
-										//mail($to, $subject, $message, $header);
-										
-										if($claimResult){
-											?>
-											<h1>Task claimed successfully</h1>
-											
-											<?php
-											
-										}else{
-											echo "Failed to claim task";
-										}
-										
-										
-								} else {
-										printf("Could not claim Task - UserId or TaskId not set");
+									}
 								}
-								
 							}
 							?>
-							<ul class="actions small">
-								  <a href="./index.php" class="button small">Back</a>
-								</li>
-						  </ul>
 						</div>
 					</div>
 				</article>
@@ -117,6 +99,24 @@
 		
 			<div class="wrapper style4" id ="register">
 				<article id="contact" class="container 75%">
+				<?php
+					if(!isset($_SESSION['UserId'])){ ?>
+						<header>
+							<h2>Get the right advice when you need it</h2>
+							<p>Register an account with us today</p>
+						</header>
+						<div>
+							<div class="row">
+								<div class="12u">
+
+								<input type="button" value="Register Now" onclick="window.open('Register.php', '_self')">
+				
+								</div>
+							</div>
+						</div>
+				<?php		
+					}
+				?>
 					<footer>
 						<ul id="copyright">
 							<li>© Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
@@ -139,3 +139,4 @@
 </body>
 </html>
 		
+	

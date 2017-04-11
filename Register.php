@@ -83,6 +83,10 @@
 														$user->setCourse($Course);
 														$user->setPassword($Password);
 														$user = $userDAO->save($user);
+														$userTest = $userDAO->login($Email, $Password);
+														$userId = $userTest->getUserId();
+														//add to ban table with default value 0
+														$userDAO->addban($userId);
 														
 														if (!is_null($user)) {
 																printf("<h2> Welcome %s! Please <a href=\"./login.php\"> login </a> to proceed. </h2>", $user->getFirstName());

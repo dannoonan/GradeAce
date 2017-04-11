@@ -17,6 +17,7 @@
 		{
 			$Title=($_POST['Title']);
 			$TaskType=($_POST['TaskType']);
+			$CurrentTaskField=($_POST['TaskField']);
 			$Description=($_POST['Description']);
 			$Pages=($_POST['Pages']);
 			$Words=($_POST['Words']);
@@ -63,7 +64,7 @@
 			$user=$userDAO->getUser($userId,'');
 			$TaskField=$user->getCourse();
 			
-			$sql = "INSERT INTO tasks(Title, TaskType, TaskField, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$TaskField', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
+			$sql = "INSERT INTO tasks(Title, TaskType, TaskField, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$CurrentTaskField', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
 			mysqli_query($db, $sql);
 				
 			$TaskId = mysqli_insert_id($db)or die(mysqli_error($db));

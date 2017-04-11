@@ -55,7 +55,7 @@
 										printf("<h1>%s</h1>", $user->getFirstName());
 										if($rep >= 40){
 											printf("<section class=\"box style1\">
-									        <a href=\"./myTasks.php\" <span class=\"icon featured fa-thumbs-o-up\"></span>
+									        <a href=\"./ModeratorPage.php\" <span class=\"icon featured fa-thumbs-o-up\"></span>
 									        <h3>Moderator</h3>
 								            </section></a>");
 										}

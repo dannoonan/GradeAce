@@ -4,7 +4,6 @@
 	require_once __DIR__.'./daos/UserDAO.class.php';
 ?>
 <html>
-<html>
 <head>
 		<meta name="viewport" content="initial-scale=1"><meta name="viewport" content="user-scalable=yes,width=device-width,initial-scale=1"><meta name="viewport" content="initial-scale=1"><meta name="viewport" content="user-scalable=yes,width=device-width,initial-scale=1"><title>GradeAce</title>
 		<meta charset="utf-8">
@@ -54,7 +53,6 @@
 								$taskDAO = new TaskDAO();
 								$UserDAO = new UserDAO();
 								
-								
 								try{
 									$task = $taskDAO->getTask($TaskId);
 								}catch(exception $e){
@@ -64,40 +62,38 @@
 								 if (!is_null($task)&&!is_null($TaskId)){
 										
 										$User = $UserDAO->getUser($UserId, null);
-										$UserEmail = $User->getEmail();
-										$TId=$task->getTaskId();
-										$OwnerId = ($taskDAO->getOwner($TId))->getUserId();
-										$Owner = $UserDAO->getUser($OwnerId, null);
-										$OwnerEmail = $Owner->getEmail();
-										
-										$claimResult = $taskDAO->claimTask($TaskId, $UserId);
-										$query = "UPDATE users SET Reputation = Reputation + '10' WHERE UserId = $UserId";
-										mysqli_query($db, $query);
-										
-										$to      = $OwnerEmail;
-										$subject = 'Task Claim';
-										$message = 'A user would like to claim the task '.$task->getTitle().'.\n Please forward on the file to '.$UserEmail;
-										$header = "From: noreply@example.com\r\n"; 
+										$Owner = $taskDAO->getOwner($TaskId);
+										$OwnerId = $Owner->getUserId();
+
+										if (isset($_GET["function"]) && $_GET["function"] == 1){
+											$unpublishResult = $taskDAO->deleteTask($TaskId);
+																				
+											if($unpublishResult){
+							?>
+											<h1>Task unpublished</h1>
 											
-										//echo $UserEmail.", ".$OwnerEmail.", ".$task->getTitle();
-										//mail($to, $subject, $message, $header);
-										
-										if($claimResult){
-											?>
-											<h1>Task claimed successfully</h1>
-											
-											<?php
-											
-										}else{
-											echo "Failed to claim task";
+							<?php
 										}
-										
-										
-								} else {
-										printf("Could not claim Task - UserId or TaskId not set");
+										}else if (isset($_GET["function"]) && $_GET["function"] == 2){
+											$banResult = $UserDAO->ban($OwnerId);
+											$unpublishResult = $taskDAO->deleteTask($TaskId);
+																				
+											if($banResult && $unpublishResult){
+							?>
+											<h1>User successfully Banned and Task unpublished</h1>
+											
+							<?php
+										}
+										}
+										else{
+											echo "Failed to ban user and unpublish task";
+										}
+									}
+										else {
+										printf("Could not ban user and unpublish task - UserId or TaskId not set");
 								}
-								
 							}
+							
 							?>
 							<ul class="actions small">
 								  <a href="./index.php" class="button small">Back</a>
@@ -138,4 +134,3 @@
 
 </body>
 </html>
-		

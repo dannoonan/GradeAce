@@ -52,21 +52,31 @@
 								$userDAO = new UserDAO();
 								$user= $userDAO->login($email, $password);
 								
+								
 								if($user)
 								{
-									
+									//Test to see if th user is banned
+									$userId = $user->getUserId();
+									$IsBanned = $userDAO->IsBanned($userId);
+									$ban='All Ok';
+										if($IsBanned == 1)
+										{
+											printf("<h2> This User is banned! </h2>");
+											$ban=null;
+										}
 									
 									//Not Neccessary!!!!!
 									//$userDAO->logout(); 
 								}
 								
-								 if (!is_null($user)) {
+								 if (!is_null($user) && !is_null($ban)) {
 									
 									
 									$_SESSION['UserId'] = $user->getUserId(); 
 									$_SESSION['UserName'] = $user->getFirstName();
 									header("Location:./index.php");
 								}else {
+									If(!is_null($ban))
 									printf("<h2> Password incorrect or account not found. </h2>");
 								}
 							}catch (Exception $exception) {

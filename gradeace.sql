@@ -30,12 +30,33 @@ END$$
 
 -- --------------------------------------------------------
 
-
-DROP PROCEDURE IF EXISTS `banUser`$$
-CREATE DEFINER=`root` PROCEDURE `banUser`(IN `UserId` INT(10), IN `IsBanned` TINYINT(1))
+DROP PROCEDURE IF EXISTS `addban`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addban`(IN `rUserId` INT(10))
     READS SQL DATA
 BEGIN
-INSERT INTO `users`(UserId, IsBanned) VALUES (UserId, '1');
+INSERT INTO `banned`(UserId, IsBanned) VALUES (rUserId, '0');
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `banUser`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `banUser`(IN `rUserId` INT(10))
+    READS SQL DATA
+BEGIN
+UPDATE `banned` SET IsBanned=1 WHERE UserId=rUserId;
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `IsBanned`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `IsBanned`(IN `UserId` INT(10))
+    READS SQL DATA
+BEGIN
+
+select i.IsBanned 
+from banned i
+where (i.UserId = UserId);
+
 END$$
 
 -- --------------------------------------------------------
@@ -174,6 +195,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `CancelTask`(IN `rTaskId` INT(10))
 BEGIN
 
 UPDATE `StatusTable` SET Status=3 WHERE TaskId=rTaskId;
+
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `deleteTask`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteTask`(IN `rTaskId` INT(10))
+    READS SQL DATA
+BEGIN
+
+DELETE FROM `tasks` WHERE TaskId = rTaskId;
 
 END$$
 
