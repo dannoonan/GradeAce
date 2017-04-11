@@ -51,7 +51,7 @@
 								
 								$userDAO = new UserDAO();
 								$user= $userDAO->login($email, $password);
-								
+								$ban = null;
 								
 								if($user)
 								{

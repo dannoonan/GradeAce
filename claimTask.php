@@ -66,7 +66,9 @@
 										$User = $UserDAO->getUser($UserId, null);
 										$UserEmail = $User->getEmail();
 										$TId=$task->getTaskId();
-										$OwnerId = ($taskDAO->getOwner($TId))->getUserId();
+										$OwnerPerson = $taskDAO->getOwner($TId);
+										$OwnerId = $OwnerPerson->getUserId();
+										//$OwnerId = ($taskDAO->getOwner($TId))->getUserId();
 										$Owner = $UserDAO->getUser($OwnerId, null);
 										$OwnerEmail = $Owner->getEmail();
 										
