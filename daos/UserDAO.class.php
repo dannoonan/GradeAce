@@ -70,6 +70,22 @@ class UserDAO {
 		return $row['IsBanned'] ;
 	}
 	
+	public static function updateReputation($UserId, $newReputation){
+		
+		$retVal = null;
+		$args = $UserId.", ".$newReputation;
+		$result = MySQLiAccess::call2("updateReputation", $args);
+		
+		if($result){
+			$retVal=true;
+		}else{
+			$retVal= false;
+		}
+		
+		return $retVal;
+		
+	}
+	
 	public static function login($Email, $password) {
 
 		

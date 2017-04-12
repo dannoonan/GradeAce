@@ -83,9 +83,15 @@
 		
 		$result = MySQLiAccess::call2("getTaskClaimant", $args);
 		if ($result) {
-				$resultArray = $result->fetch_array();
+			$userIdArray = $result->fetch_array();
+			$userId = $userIdArray[0];
+			$args = $userId.","."''";
+			$result2 = 	MySQLiAccess::call2("getUser", $args);
+			if($result2){
+				$resultArray = $result2->fetch_array();
                 $claimant = ModelFactory::buildModel("User", $resultArray);
-            }
+			}
+        }
 		return $claimant;
 	}
 	

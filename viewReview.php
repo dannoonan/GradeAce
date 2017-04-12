@@ -41,6 +41,58 @@
 						
 						<div class="11u 12u(mobile)">
 							<header>
+							
+								<?php
+									
+									if(isset($_POST['assess_btn'])){
+										
+										
+										$assessment = $_POST['assess'];
+										$repNum = 0;
+										$function = 0;
+										
+										
+										if($assessment=="happy"){
+											$function = 1;
+										}else if($assessment=="unhappy"){
+											$function = 2;
+										}
+										$userDAO = new UserDAO();
+										$taskDAO = new TaskDAO();
+										
+										$reviewer = $taskDAO->getTaskClaimant($taskId);
+										$reviewerId = $reviewer->getUserId();
+										$reviewerRep = $reviewer->getReputation();
+										
+										$newReputation = 0;
+										
+										if ($function == 1){
+											$newReputation= $reviewerRep + 10;
+										}else if($function == 2){
+											$newReputation = $reviewerRep - 10;
+										}
+										
+										$result = $userDAO->updateReputation($reviewerId, $newReputation);
+										
+										if($result){
+											echo "Assessment successful";
+										}else{
+											echo "ERROR - NOT SUCCESSFUL";
+										}
+										
+										header("Location:./index.php");
+										
+										
+									}
+								
+								
+								
+								
+								?>
+								
+								
+								
+								
 								<h1>Task Review Notes</h1>
 								<h2>Below are the notes left be the Reviewer.<br>Please indicate if you are happy or not happy with these notes below before leaving</h2>
 							</header>
@@ -50,6 +102,14 @@
 								$task = $taskDAO->getTask($taskId);
 								printf($task->getNotes());
 							?>
+							
+							<form action="viewReview.php" method="post">
+							
+							<input type = "radio" value = "happy" name = "assess">Happy
+							<input type = "radio" value = "unhappy" name = "assess">Unhappy</br>
+							
+							<input type="submit" value="Submit" name="assess_btn">
+							</form>
 							
 						</div>
 					</div>

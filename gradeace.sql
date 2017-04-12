@@ -279,6 +279,20 @@ END$$
 
 -- --------------------------------------------------------
 
+DROP PROCEDURE IF EXISTS `updateReputation`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateReputation`(IN `rUserId` INT(10), IN `newReputation` INT(10))
+    READS SQL DATA
+BEGIN
+	
+UPDATE `Users`
+SET Reputation = newReputation
+WHERE UserId = rUserId;
+
+		
+END$$
+
+-- --------------------------------------------------------
+
 DROP PROCEDURE IF EXISTS `getTaskClaimant`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getTaskClaimant`(IN `TaskId` INT(10))
     READS SQL DATA
