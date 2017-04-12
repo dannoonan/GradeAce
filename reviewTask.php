@@ -16,6 +16,7 @@
 		if(!is_null($notes)){
 			
 			$taskDAO = new TaskDAO();
+			$userDAO = new UserDAO();
 			
 			try{
 				$task = $taskDAO->getTask($taskId);
@@ -25,12 +26,20 @@
 			
 			if(!is_null($task)&&!is_null($taskId)){
 				
-				$result = $taskDAO->addReview($notes, $taskId);
-				$query = "UPDATE users SET Reputation = Reputation + '10' WHERE UserId = $userId";
-				mysqli_query($db, $query);
+				$resultReviewAdd = $taskDAO->addReview($notes, $taskId);
+				
+				$user = $userDAO->getUser($UserId, "");
+				$userRep = $user->getReputation();
+				$newUserRep = $userRep+10;
+				$resultRepIncrease = $userDAO->updateReputation($userId, $newUserRep);
+				
+				//$query = "UPDATE users SET Reputation = Reputation + '10' WHERE UserId = $userId";
+				//mysqli_query($db, $query);
 				
 				
-				if($result){
+				if($resultReviewAdd&&$resultRepIncrease){
+					echo "Review added successfully. You have earned 10 reputation points";
+				}else if($resultReviewAdd){
 					echo "Review added successfully";
 				}else{
 					echo "Failed to add review";
