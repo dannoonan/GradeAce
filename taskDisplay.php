@@ -85,6 +85,8 @@
 											$statusString = "Completed";
 										else if($status == 3)
 											$statusString = "Cancelled";
+										else if($status == 4)
+											$statusString = "Unclaimed";
 										printf("<h2>Task Status: </h2><h4>%s</h4>",$statusString);
 										
 										if(!is_null($tags)){

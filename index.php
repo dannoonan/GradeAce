@@ -83,8 +83,13 @@
 										$num=$task->getTaskId();
 										$result=mysqli_query($db,"SELECT 1 FROM statustable WHERE `TaskId` = '$num' && `Status` = 0");
 										$result2=mysqli_query($db,"SELECT 1 FROM tasks WHERE `TaskId` = '$num' && `TaskField` = '$userCourse'");
-										if(($result && mysqli_num_rows($result) > 0)&&($result2 && mysqli_num_rows($result2) > 0))
+										$taskId = $task->getTaskId();
+										$deadlineCheck = $taskDao->checkDeadline($taskId);
+										$status = $taskDao->getTaskStatus($taskId);
+										if(($result && mysqli_num_rows($result) > 0)&&($result2 && mysqli_num_rows($result2) > 0) && ($deadlineCheck == 1))
 											printf("<h2> <a href=\"./taskDisplay.php?id=%s\"> %s  -  %s</h2>", $task->getTaskId(), $task->getTitle(), $task->getTaskType());
+										else if(($deadlineCheck == 0) && $status==0)
+											$taskDao->Unclaim($taskId);
 
 									}
 								}

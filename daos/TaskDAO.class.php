@@ -76,6 +76,27 @@
 			 
 	}
 	
+	public static function checkDeadline($TaskId){
+		$date = null;
+		 
+		if(!is_null($TaskId)){
+			
+			$args = $TaskId;
+			
+			$result = MySQLiAccess::call2("getDeadline1", $args);
+			$row = mysqli_fetch_assoc($result);
+			$TestDate = $row['ClaimDate'] ;
+			
+			if( strtotime($TestDate) > strtotime('now') ) {
+				$date=1;
+            }
+			else
+				$date=0;
+        }
+        return $date;
+			 
+	}
+	
 	public static function getTaskClaimant($TaskId)
 	{
 		$claimant = null;
@@ -179,6 +200,16 @@
 			echo "TaskId not set";
 		}
 		return $retVal;
+	}
+	
+	public static function Unclaim($taskId){
+		if(!is_null($taskId)){
+			
+			$args = $taskId;
+			
+			$result = MySQLiAccess::call2("UnclaimTask", $args);
+			
+	}
 	}
 	
 	public static function deleteTask($taskId){
