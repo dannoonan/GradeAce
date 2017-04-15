@@ -11,9 +11,9 @@ class UserDAO {
 		
             $args = $UserId.", ".MySQLiAccess::prepareString($Email);
             $result = MySQLiAccess::call2("getUser", $args);
-			
-			
-            if ($result) {
+						
+            if (!($result->num_rows === 0)) {
+				echo"TEST";
 				$resultArray = $result->fetch_array();	
                 $user = ModelFactory::buildModel("User", $resultArray);
             }
