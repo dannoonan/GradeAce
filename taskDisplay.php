@@ -126,7 +126,7 @@
 									 }
 								?>
 									<li>
-									  <a href=# class="button small">Flag Task</a>
+									  <a href="./FlagTask.php" class="button small">Flag Task</a>
 									</li>
 							  <?php 
 									} else if (isset($_GET["function"]) && $_GET["function"] == 1) {

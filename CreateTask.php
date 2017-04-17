@@ -113,7 +113,7 @@
 				}
 			}
 		
-			mysqli_query($db,"INSERT INTO flag(TaskId, IsFlagged) Values ('$TaskId', 'false')");
+			mysqli_query($db,"INSERT INTO flag(TaskId) Values ('$TaskId')");
 			mysqli_query($db,"INSERT INTO statustable(TaskId) Values ('$TaskId')");
 			
 			$userId = $_SESSION['UserId'];

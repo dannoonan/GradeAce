@@ -218,6 +218,28 @@
 		return $retVal;
 	}
 	
+	
+	public static function flagTask($taskId){
+		if(!is_null($taskId)){
+			
+			$args = $taskId;
+			
+			$result = MySQLiAccess::call2("flagTask", $args);
+			
+			if($result){
+				$retVal = true;
+			}
+			else{
+				$retVal = false;
+				echo "Failed to Flags Task claim";
+			}
+			
+		}else{
+			echo "TaskId not set";
+		}
+		return $retVal;
+	}
+	
 	public static function Unclaim($taskId){
 		$retVal = null;
 		

@@ -88,6 +88,7 @@
 										$num=$task->getTaskId();
 										$result=mysqli_query($db,"SELECT 1 FROM statustable WHERE `TaskId` = '$num' && `Status` = 0");
 										$result2=mysqli_query($db,"SELECT 1 FROM tasks WHERE `TaskId` = '$num' && `TaskField` = '$userCourse'");
+										$Flagged =mysqli_query($db, "SELECT 1 FROM flag WHERE `TaskId` = '$num' && `IsFlagged` = '0'");
 										$taskId = $task->getTaskId();
 										
 										
@@ -141,7 +142,7 @@
 										$deadline1Function = 1;
 										$deadlineCheck = $taskDAO->checkDeadline($taskId, $deadline1Function);
 										$status = $taskDAO->getTaskStatus($taskId);
-										if(($result && mysqli_num_rows($result) > 0)&&($result2 && mysqli_num_rows($result2) > 0) && ($deadlineCheck == 1))
+										if(($result && mysqli_num_rows($result) > 0)&&($result2 && mysqli_num_rows($result2) > 0) && ($deadlineCheck == 1) &&($Flagged && mysqli_num_rows($Flagged) > 0))
 											printf("<h2> <a href=\"./taskDisplay.php?id=%s\"> %s  -  %s</h2>", $task->getTaskId(), $task->getTitle(), $task->getTaskType());
 										else if(($deadlineCheck == 0) && $status==0)
 											$taskDAO->Unclaim($taskId);

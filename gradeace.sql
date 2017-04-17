@@ -81,10 +81,10 @@ END$$
 
 
 DROP PROCEDURE IF EXISTS `flagTask`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `flagTask`(IN `TaskId` INT(10), IN `IsFlagged` TINYINT(1))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `flagTask`(IN `rTaskId` INT(10))
     READS SQL DATA
 BEGIN
-INSERT INTO `flag`(TaskId, IsFlagged) VALUES (TaskId, '1');
+UPDATE `flag` SET `IsFlagged`=1 WHERE TaskId=rTaskId;
 END$$
 
 -- --------------------------------------------------------
