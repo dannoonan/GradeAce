@@ -76,16 +76,32 @@
 			 
 	}
 	
-	public static function checkDeadline($TaskId){
+	public static function checkDeadline($TaskId, $function){
 		$date = null;
+		$deadlineProcedure = null;
+		
+		if($function == 1){
+			$deadlineProcedure = "getDeadline1";
+			
+		}else if($function==2){
+			$deadlineProcedure = "getDeadline2";
+		}
+		
 		 
 		if(!is_null($TaskId)){
 			
 			$args = $TaskId;
 			
-			$result = MySQLiAccess::call2("getDeadline1", $args);
+			$result = MySQLiAccess::call2($deadlineProcedure, $args);
 			$row = mysqli_fetch_assoc($result);
-			$TestDate = $row['ClaimDate'] ;
+			
+			if($function ==1){
+				$TestDate = $row['ClaimDate'] ;	
+				
+			}else if($function ==2){
+				$TestDate = $row['CompleteDate'] ;
+			}
+			
 			
 			if( strtotime($TestDate) > strtotime('now') ) {
 				$date=1;
@@ -203,13 +219,20 @@
 	}
 	
 	public static function Unclaim($taskId){
+		$retVal = null;
+		
 		if(!is_null($taskId)){
 			
 			$args = $taskId;
 			
 			$result = MySQLiAccess::call2("UnclaimTask", $args);
 			
-	}
+			if($result){
+				$retVal = true;
+			}else{
+				$retVal = false;
+			}
+		}
 	}
 	
 	public static function deleteTask($taskId){
@@ -252,8 +275,26 @@
 		}else{
 			echo "Failed to add review";
 			return $result;
+		}	
+	}
+	
+	public static function reviewCheck($taskId){
+		
+		$retVal = null;
+		$function=2;
+		
+		$result = self::checkDeadline($taskId, $function);
+		
+		if($result==0){
+			$retVal = true;
+			echo "deadline completeDate  passed////";
+			
+		}else{
+			$retval = false;
+			echo "deadline competeDate not passed////";
 		}
 		
+		return $retVal;
 		
 	}
 	

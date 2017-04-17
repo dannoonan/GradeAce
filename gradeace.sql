@@ -205,7 +205,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UnclaimTask`(IN `rTaskId` INT(10))
     READS SQL DATA
 BEGIN
 
-UPDATE `StatusTable` SET Status=4 WHERE TaskId=rTaskId;
+UPDATE `StatusTable` SET Status=3 WHERE TaskId=rTaskId;
 
 END$$
 
@@ -321,6 +321,18 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getDeadline1`(IN `TaskId` INT(10))
     READS SQL DATA
 BEGIN
 SELECT t.ClaimDate 
+From tasks t
+WHERE (t.TaskId=TaskId);
+END$$
+
+-- --------------------------------------------------------
+
+
+DROP PROCEDURE IF EXISTS `getDeadline2`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getDeadline2`(IN `TaskId` INT(10))
+    READS SQL DATA
+BEGIN
+SELECT t.CompleteDate 
 From tasks t
 WHERE (t.TaskId=TaskId);
 END$$

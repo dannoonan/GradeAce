@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__.'./daos/TaskDAO.class.php';
 	require_once __DIR__.'./daos/TagDAO.class.php';
+	require_once __DIR__.'./daos/UserDAO.class.php';
 ?>
 <html>
 <html>
@@ -57,6 +58,8 @@
 							?>
 								
 							</header>
+							
+							
 							<?php
 
 							require_once('load.php');
@@ -69,10 +72,10 @@
 								$row = mysqli_fetch_assoc($getCourse);
 								$userCourse = $row['Course'];
 								
-								$taskDao = new TaskDAO();
+								$taskDAO = new TaskDAO();
 								try {
 									
-									$tasks = $taskDao->getAllTasks();	
+									$tasks = $taskDAO->getAllTasks();	
 									
 								} catch (Exception $e) {
 									$tasks = null;
@@ -80,16 +83,68 @@
 								if (!is_null($tasks)) {
 									foreach ($tasks as $task) {
 
+										
+										
 										$num=$task->getTaskId();
 										$result=mysqli_query($db,"SELECT 1 FROM statustable WHERE `TaskId` = '$num' && `Status` = 0");
 										$result2=mysqli_query($db,"SELECT 1 FROM tasks WHERE `TaskId` = '$num' && `TaskField` = '$userCourse'");
 										$taskId = $task->getTaskId();
-										$deadlineCheck = $taskDao->checkDeadline($taskId);
-										$status = $taskDao->getTaskStatus($taskId);
+										
+										
+										
+										
+										/*Below is the code to check whehter a task is claimed, then, if it is, to check whether it has been reviewed before its
+										complete date. If the completeDate has been passed, and the task remains unreviewed, the task is unclaimed, and the claimant has
+										30 reputation points deducted*/
+										$isClaimed = $taskDAO->getTaskStatus($taskId);
+										
+										if($isClaimed==1){
+											
+											$isReviewed = $taskDAO->reviewCheck($taskId);
+											
+											if($isReviewed){
+												
+												
+												$unclaimResult = $taskDAO->Unclaim($taskId);
+			
+												if($unclaimResult){
+													echo "task unclaimed////";
+												}else{
+													echo "task not unclaimed////";
+												}
+												
+												
+												
+												$userDAO = new UserDAO();
+												$reviewer = $taskDAO->getTaskClaimant($taskId);
+												$reviewerId = $reviewer->getUserId();
+												$reviewerRep = $reviewer->getReputation();
+										
+												$newReputation = $reviewerRep - 30;
+												$repChange = $userDAO->updateReputation($reviewerId, $newReputation);
+												
+											}
+											
+											
+											
+										}
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										$deadline1Function = 1;
+										$deadlineCheck = $taskDAO->checkDeadline($taskId, $deadline1Function);
+										$status = $taskDAO->getTaskStatus($taskId);
 										if(($result && mysqli_num_rows($result) > 0)&&($result2 && mysqli_num_rows($result2) > 0) && ($deadlineCheck == 1))
 											printf("<h2> <a href=\"./taskDisplay.php?id=%s\"> %s  -  %s</h2>", $task->getTaskId(), $task->getTitle(), $task->getTaskType());
 										else if(($deadlineCheck == 0) && $status==0)
-											$taskDao->Unclaim($taskId);
+											$taskDAO->Unclaim($taskId);
 
 									}
 								}
