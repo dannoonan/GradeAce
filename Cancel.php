@@ -54,15 +54,18 @@
 								$taskDAO = new TaskDAO();
 								$UserDAO = new UserDAO();
 								
+								//Removes 15 points from the users reputation
 								$query = "UPDATE users SET Reputation = Reputation - '15' WHERE UserId = $UserId";
 								mysqli_query($db, $query);
 				
+								//gets the task object
 								try{
 									$task = $taskDAO->getTask($TaskId);
 								}catch(exception $e){
 									$task = null;
 								}
-														
+													
+								//Sets the task to status 3 on statusTable i.e. cancelled
 								 if (!is_null($task)&&!is_null($TaskId)){
 										
 										$User = $UserDAO->getUser($UserId, null);

@@ -11,10 +11,12 @@
 	
 	require_once('load.php');
 	
+	//when Create task button pressed to submit the form
 	if (isset($_POST['create_btn'])){
 	
 		if(($_FILES['pdf1']['size'] > 0))
 		{
+			//Takes in all information given
 			$Title=($_POST['Title']);
 			$TaskType=($_POST['TaskType']);
 			$CurrentTaskField=($_POST['TaskField']);
@@ -25,6 +27,7 @@
 			$ClaimDate=($_POST['ClaimDate']);
 			$CompleteDate=($_POST['CompleteDate']);
 			
+			//ensures all relevant information is given
 		if(empty($Title) || empty($TaskType) || empty($Description) || empty($Pages) || empty($Words) ||
 			empty($FileFormat) || empty($ClaimDate) || empty($CompleteDate))
 			{
@@ -35,6 +38,7 @@
 				$TaskDAO=new TaskDAO();
 				$FileDAO=new FileDAO();
 				
+				//creates information for uploading pdf to database
 				$fileName = $_FILES['pdf1']['name'];
 				$tmpName  = $_FILES['pdf1']['tmp_name'];
 				$fileSize = $_FILES['pdf1']['size'];
@@ -50,6 +54,7 @@
 				$fileName = addslashes($fileName);
 			}
 
+			//stores pdf in Upload table in databse
 			$query = "INSERT INTO upload (fileName, fileSize, fileType, content) VALUES ('$fileName', '$fileSize', '$fileType', '$content')";
 			
 			mysqli_query($db, $query) or die('Error, query failed'); 
@@ -64,11 +69,13 @@
 			$user=$userDAO->getUser($userId,'');
 			$TaskField=$user->getCourse();
 			
+			//adds task details to task table in database
 			$sql = "INSERT INTO tasks(Title, TaskType, TaskField, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$CurrentTaskField', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
 			mysqli_query($db, $sql);
 				
 			$TaskId = mysqli_insert_id($db)or die(mysqli_error($db));
 			
+			//see's if tags are being added
 			for($i=0; $i<4; $i++)
 			{
 				$cont=false;
@@ -93,6 +100,7 @@
 					$cont=true;
 				}
 			
+				//checks if tags already exist in the database and if not adds them
 				if($cont == TRUE)
 				{
 					$Query = "Select Tag from tags where Tag = '$Tag' ";
@@ -113,6 +121,7 @@
 				}
 			}
 		
+			//adds relevant data tp flag, statustable and owned tables
 			mysqli_query($db,"INSERT INTO flag(TaskId) Values ('$TaskId')");
 			mysqli_query($db,"INSERT INTO statustable(TaskId) Values ('$TaskId')");
 			
@@ -157,7 +166,7 @@
 								<h1>Task Creation.</h1>
 								<h2>Create a Task by filling in the details below.</h2>
 							</header>
-							
+							<!-- Create task form where information is entered -->
 							<form action="CreateTask.php" method="post" enctype="multipart/form-data">
 							
 							<input type="text" name="Title" placeholder="*Please enter the task title.">

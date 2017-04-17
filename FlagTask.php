@@ -49,6 +49,7 @@
 							
 							if (isset($_SESSION["UserId"])&& isset($_SESSION["TempTaskId"])) {
 								
+								$UserId = $_SESSION["UserId"];
 								$TaskId = $_SESSION["TempTaskId"];
 								$taskDAO = new TaskDAO();
 								
@@ -63,6 +64,8 @@
 										
 										
 										$flagResult = $taskDAO->flagTask($TaskId);
+										$query = "UPDATE users SET Reputation = Reputation + '2' WHERE UserId = $UserId";
+										mysqli_query($db, $query);
 										
 										if($flagResult){
 											?>

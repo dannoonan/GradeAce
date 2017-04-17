@@ -1,4 +1,5 @@
 <?php
+	//connect to relevant DAO's
     require_once __DIR__.'./daos/TaskDAO.class.php';
 	require_once __DIR__.'./daos/TagDAO.class.php';
 	require_once __DIR__.'./daos/UserDAO.class.php';
@@ -20,15 +21,19 @@
 				<ul class="container">
 					<li><a href="./index.php">Home</a></li>
 					<?php 
+						//Ensure the session is started, if not start it
 						if (!isset ($_SESSION)) {
 							session_start();
 						}
 						
+						//see if the user is logged in
 						if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){ 
 						//printf("<li><a href=\"./createTask.php\" class=\"\">Sell</a></li>");
 						printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
 						printf("<li><a href=#>Create a Task</a></li>");
 						} else {
+							
+							//if user not logged in display different header
 							printf("<li><a href=\"./login.php\" class=\"\">Login</a></li>");
 						}
 					?>
@@ -48,11 +53,13 @@
 							
 							if (isset($_SESSION["UserId"])&& isset($_SESSION["TempTaskId"])) {
 								
+								//establish the users id and the task id
 								$TaskId = $_SESSION["TempTaskId"];
 								$UserId = $_SESSION["UserId"];
 								$taskDAO = new TaskDAO();
 								$UserDAO = new UserDAO();
 								
+								//get the task object
 								try{
 									$task = $taskDAO->getTask($TaskId);
 								}catch(exception $e){
@@ -65,6 +72,7 @@
 										$Owner = $taskDAO->getOwner($TaskId);
 										$OwnerId = $Owner->getUserId();
 
+										//Deletes the task and appropriate details from database tables
 										if (isset($_GET["function"]) && $_GET["function"] == 1){
 											$unpublishResult = $taskDAO->deleteTask($TaskId);
 																				
@@ -74,6 +82,8 @@
 											
 							<?php
 										}
+										
+										//Deletes task and bans user in banned table
 										}else if (isset($_GET["function"]) && $_GET["function"] == 2){
 											$banResult = $UserDAO->ban($OwnerId);
 											$unpublishResult = $taskDAO->deleteTask($TaskId);
@@ -85,6 +95,8 @@
 							<?php
 										}
 										}
+										
+										//error messages
 										else{
 											echo "Failed to ban user and unpublish task";
 										}

@@ -43,7 +43,7 @@
 							<header>
 							
 								<?php
-									
+									//User chooses to assess the review of their task
 									if(isset($_POST['assess_btn'])){
 										
 										
@@ -51,7 +51,7 @@
 										$repNum = 0;
 										$function = 0;
 										
-										
+										//Sees if the user is 'happy' or 'unhappy' with their review
 										if($assessment=="happy"){
 											$function = 1;
 										}else if($assessment=="unhappy"){
@@ -66,6 +66,7 @@
 										
 										$newReputation = 0;
 										
+										//Adds or takes 10 rep points from the reviewer depending on the users judgment of the review
 										if ($function == 1){
 											$newReputation= $reviewerRep + 10;
 										}else if($function == 2){
@@ -92,7 +93,7 @@
 								
 								
 								
-								
+								<!-- Displays the claimants notes on the task -->
 								<h1>Task Review Notes</h1>
 								<h2>Below are the notes left be the Reviewer.<br>Please indicate if you are happy or not happy with these notes below before leaving</h2>
 							</header>
@@ -105,6 +106,7 @@
 							
 							<form action="viewReview.php" method="post">
 							
+							<!-- 'Happy' and 'Unhappy' buttons for user -->
 							<input type = "radio" value = "happy" name = "assess">Happy
 							<input type = "radio" value = "unhappy" name = "assess">Unhappy</br>
 							

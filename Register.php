@@ -53,8 +53,10 @@
 								
 								require_once('load.php');
 								
+								//when the register button is pressed after the form has been filled
 								if (isset($_POST['register_btn'])){
 									
+									//Takes in all the information is entered
 									$FirstName=($_POST['FirstName']);
 									$LastName=($_POST['LastName']);
 									$Email=($_POST['Email']);
@@ -66,16 +68,19 @@
 
 									$userTester = $userDAO->getUser("''", $Email);
 									
+									//ensures the passwords match
+									if($Password == $Password2){ 
 									
-									if($Password == $Password2){
+										//Ensures the emails is not already in use
 										 if (!is_null($userTester)) { 
 														printf("<h2> There is already an account with that email address</h2>");
 													} else{
 
-														
+														//hash the password
 														$siteSalt  = "gradeace";
 														$saltedHash = hash('sha256', $Password.$siteSalt);
 														
+														//Creates the new user and adds to users table in database
 														$user = new User();
 														$user->setFirstName($FirstName);
 														$user->setLastName($LastName);
@@ -107,7 +112,7 @@
 								if (!isset($_POST) || count($_POST) == 0) { 
 							?>
 								
-								
+								<!-- Form for entering new user information -->
 								<form action="Register.php" method="post">
 								
 								<input type="text" name="FirstName" placeholder="Please enter your first name">

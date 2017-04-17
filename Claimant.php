@@ -19,10 +19,14 @@
 			<nav id="nav">
 				<ul class="container">
 					<li><a href="./index.php">Home</a></li>
+					
+					
 					<?php 
 						if (!isset ($_SESSION)) {
 							session_start();
 						}
+						
+						//ensures user is logged in
 						
 						if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){ 
 						//printf("<li><a href=\"./createTask.php\" class=\"\">Sell</a></li>");
@@ -46,13 +50,12 @@
 							</header>
 							<?php
 								
-							
+							//gets user ID and creates user object
 							if (isset($_GET["id"])) {
 								
 								$displayTaskId = $_GET["id"];
 								$_SESSION["TempTaskId"]= $displayTaskId;
 								$taskDAO = new TaskDAO();
-								$tagDAO = new TagDAO();
 								$claimant = $taskDAO->getTaskClaimant($displayTaskId);
 								
 								try{
@@ -61,12 +64,7 @@
 									$task = null;
 								}
 								
-								try{
-									$tags = $tagDAO->getTags($displayTaskId);
-								}catch(exception $e){
-									$tags = null;
-								}
-								
+								//displays users name and email
 								 if (!is_null($task) ){
 										printf("<h1> %s </h1> \n", $task->getTitle());
 										printf("<h1>Claimants Details</h1>");
