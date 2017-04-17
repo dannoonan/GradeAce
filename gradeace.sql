@@ -79,6 +79,62 @@ END$$
 
 -- --------------------------------------------------------
 
+DROP PROCEDURE IF EXISTS `updateFirstName`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateFirstName`(IN `sUserId` INT(10), IN `newFirstName` VARCHAR(128))
+    READS SQL DATA
+BEGIN
+	
+UPDATE `Users`
+SET FirstName = newFirstName
+WHERE UserId = sUserId;
+
+		
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `updateLastName`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateLastName`(IN `sUserId` INT(10), IN `newLastName` VARCHAR(128))
+    READS SQL DATA
+BEGIN
+	
+UPDATE `Users`
+SET LastName = newLastName
+WHERE UserId = sUserId;
+
+		
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `updateEmail`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateEmail`(IN `sUserId` INT(10), IN `newEmail` VARCHAR(128))
+    READS SQL DATA
+BEGIN
+	
+UPDATE `Users`
+SET Email = newEmail
+WHERE UserId = sUserId;
+
+		
+END$$
+
+-- --------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS `updatePassword`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updatePassword`(IN `sUserId` INT(10), IN `newPassword` VARCHAR(128))
+    READS SQL DATA
+BEGIN
+	
+UPDATE `Users`
+SET Password = newPassword
+WHERE UserId = sUserId;
+
+		
+END$$
+
+-- --------------------------------------------------------
+
 
 DROP PROCEDURE IF EXISTS `flagTask`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `flagTask`(IN `rTaskId` INT(10))

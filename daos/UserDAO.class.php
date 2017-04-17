@@ -13,7 +13,7 @@ class UserDAO {
             $result = MySQLiAccess::call2("getUser", $args);
 						
             if (!($result->num_rows === 0)) {
-				echo"TEST";
+				
 				$resultArray = $result->fetch_array();	
                 $user = ModelFactory::buildModel("User", $resultArray);
             }
@@ -106,6 +106,76 @@ class UserDAO {
 		}
 	}
 	
+	
+	public static function editProfile($userId, $attribute, $function){
+		
+		$retVal = null;
+		
+		if($function==1){
+			
+			$args = $userId.", ".MySQLiAccess::prepareString($attribute);
+			
+			
+			$result = MySQLiAccess::call2("updateFirstName", $args);
+			
+			if($result){
+				$retVal = true;
+				
+			}else{
+				$retVal = false;
+			}
+			
+		}else if($function==2){
+			
+			$args = $userId.", ".MySQLiAccess::prepareString($attribute);
+			
+			
+			$result = MySQLiAccess::call2("updateLastName", $args);
+			
+			if($result){
+				$retVal = true;
+				
+			}else{
+				$retVal = false;
+			}
+			
+		}else if($function==3){
+			
+			$args = $userId.", ".MySQLiAccess::prepareString($attribute);
+			
+			
+			$result = MySQLiAccess::call2("updateEmail", $args);
+			
+			if($result){
+				$retVal = true;
+				
+			}else{
+				$retVal = false;
+			}
+			
+		}else if($function==4){
+			
+			$args = $userId.", ".MySQLiAccess::prepareString($attribute);
+			
+			
+			$result = MySQLiAccess::call2("updatePassword", $args);
+			
+			if($result){
+				$retVal = true;
+				
+			}else{
+				$retVal = false;
+			}
+			
+		}
+		
+		return $retVal;
+		
+		
+		
+		
+		
+	}
 
 	public static function logout() {
 		/*http://php.net/manual/en/function.session-unset.php*/

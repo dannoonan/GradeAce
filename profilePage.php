@@ -76,6 +76,7 @@
 								}
 								
 							?>
+							<a href="./editProfile.php" class="button small">Edit Profile</a>
 							</header>
 							
 								<section class="box style1">
