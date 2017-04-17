@@ -60,6 +60,8 @@
 							</header>
 							
 							
+							<section class="box style1">
+							
 							<?php
 
 							require_once('load.php');
@@ -151,7 +153,7 @@
 								}
 							}
 							?>
-							
+							</section>
 						</div>
 					</div>
 				</article>
