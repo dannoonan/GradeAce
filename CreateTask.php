@@ -16,6 +16,7 @@
 	
 		if(($_FILES['pdf1']['size'] > 0))
 		{
+			
 			//Takes in all information given
 			$Title=($_POST['Title']);
 			$TaskType=($_POST['TaskType']);
@@ -26,6 +27,12 @@
 			$FileFormat=($_POST['FileFormat']);
 			$ClaimDate=($_POST['ClaimDate']);
 			$CompleteDate=($_POST['CompleteDate']);
+			
+		
+			$Title2 = mysqli_real_escape_string($db, $Title);
+			$Description2 = mysqli_real_escape_string($db, $Description);
+			
+			
 			
 			//ensures all relevant information is given
 		if(empty($Title) || empty($TaskType) || empty($Description) || empty($Pages) || empty($Words) ||
@@ -70,7 +77,7 @@
 			$TaskField=$user->getCourse();
 			
 			//adds task details to task table in database
-			$sql = "INSERT INTO tasks(Title, TaskType, TaskField, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title', '$TaskType', '$CurrentTaskField', '$Description', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
+			$sql = "INSERT INTO tasks(Title, TaskType, TaskField, Description, Pages, Words, FileFormat, FilePath, ClaimDate, CompleteDate) VALUES('$Title2', '$TaskType', '$CurrentTaskField', '$Description2', '$Pages', '$Words', '$FileFormat', '$FilePath', '$ClaimDate', '$CompleteDate')";
 			mysqli_query($db, $sql);
 				
 			$TaskId = mysqli_insert_id($db)or die(mysqli_error($db));
@@ -231,7 +238,7 @@
 				<article id="contact" class="container 75%">
 					<footer>
 						<ul id="copyright">
-							<li>© Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							<li>© GradeAce. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 						</ul>
 					</footer>
 				</article>

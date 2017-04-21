@@ -129,7 +129,7 @@
 				<article id="contact" class="container 75%">
 					<footer>
 						<ul id="copyright">
-							<li>© Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							<li>© GradeAce. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 						</ul>
 					</footer>
 				</article>

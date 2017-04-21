@@ -127,7 +127,8 @@ class MySQLiAccess {
 	public static function prepareString($string) {
 		$db = MySQLiAccess::getInstance();
 		$conn = $db->connection;
-		$x="'".$string."'";
+		$string2 = $conn->real_escape_string($string);
+		$x="'".$string2."'";
 		return $x;
 	}
 	

@@ -2,6 +2,7 @@
 	
 	 require_once __DIR__.'./daos/TaskDAO.class.php';
 	 require_once __DIR__.'./daos/TagDAO.class.php';
+	  require_once __DIR__.'./daos/UserDAO.class.php';
 	
 	
 	session_start();
@@ -28,7 +29,7 @@
 				
 				$resultReviewAdd = $taskDAO->addReview($notes, $taskId);
 				
-				$user = $userDAO->getUser($UserId, "");
+				$user = $userDAO->getUser($userId, "");
 				$userRep = $user->getReputation();
 				$newUserRep = $userRep+10;
 				$resultRepIncrease = $userDAO->updateReputation($userId, $newUserRep);
@@ -105,7 +106,7 @@
 				<article id="contact" class="container 75%">
 					<footer>
 						<ul id="copyright">
-							<li>© Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							<li>© GradeAce. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 						</ul>
 					</footer>
 				</article>

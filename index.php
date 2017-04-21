@@ -24,7 +24,7 @@
 						if (!isset ($_SESSION)) {
 							session_start();
 						}
-						
+						//If the session UserId is set, then display these elements of the nav bar
 						if (isset($_SESSION["UserId"]) && $_SESSION["UserId"] != ''){ 
 						printf("<li><a href=\"./logout.php\" class=\"\">Logout</a></li>");
 						printf("<li><a href=\"./CreateTask.php\">Create a Task</a></li>");
@@ -44,6 +44,7 @@
 						<div class="11u 12u(mobile)">
 							<header>
 							<?php
+							//Displays a welcome message containing the user's name ,and a link to their profile
 								if(isset($_SESSION['UserName'])){
 								printf("<h1>Welcome to <strong>GradeAce</strong>,<a href=\"./profilePage.php\"> %s </a></h1>", $_SESSION['UserName']);
 								}else{
@@ -55,13 +56,9 @@
 								<?php
 								}
 								
-							?>
-								
-							</header>
-							
-							
-							<section class="box style1">
-							
+							?>								
+							</header>						
+							<section class="box style1">							
 							<?php
 
 							require_once('load.php');
@@ -188,7 +185,7 @@
 				?>
 					<footer>
 						<ul id="copyright">
-							<li>© Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							<li>© GradeAce. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 						</ul>
 					</footer>
 				</article>
