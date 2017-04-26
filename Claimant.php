@@ -56,13 +56,14 @@
 								$displayTaskId = $_GET["id"];
 								$_SESSION["TempTaskId"]= $displayTaskId;
 								$taskDAO = new TaskDAO();
-								$claimant = $taskDAO->getTaskClaimant($displayTaskId);
-								
+								$claimant = $taskDAO->getTaskClaimant($displayTaskId);								
 								try{
 									$task = $taskDAO->getTask($displayTaskId);
 								}catch(exception $e){
 									$task = null;
 								}
+								
+								if(!is_null($claimant)){
 								
 								//displays users name and email
 								 if (!is_null($task) ){
@@ -73,6 +74,12 @@
 										printf("<h2>Email: </h2><h4>%s</h4>",$claimant->getEmail() );
 								 }
 							}
+							else{
+								printf("<h1> Task Cancelled due to not being</h1> \n");
+								printf("<h1>  claimed before Deadline.</h1>");
+							}
+							}
+							
 
 							?>
 							

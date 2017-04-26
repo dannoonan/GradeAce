@@ -31,7 +31,6 @@
 			 
 	}
 	
-	
 	 public static function getAllTasks() {
         $args = null;
 		
@@ -121,8 +120,9 @@
 		
 		$result = MySQLiAccess::call2("getTaskClaimant", $args);
 		if ($result) {
-			$userIdArray = $result->fetch_array();
-			$userId = $userIdArray[0];
+			$row = mysqli_fetch_assoc($result);
+			$userId = $row['UserId'] ;
+			if(!is_null($userId)){
 			$args = $userId.","."''";
 			$result2 = 	MySQLiAccess::call2("getUser", $args);
 			if($result2){
@@ -130,9 +130,40 @@
                 $claimant = ModelFactory::buildModel("User", $resultArray);
 			}
         }
+		}
+
 		return $claimant;
 	}
 	
+	/*public static function changeTaskStatus( $UserId, $TaskId){
+		
+		$args = null;
+		$retVal = false;
+		
+		
+		if(!is_null($TaskId)&&!is_null($UserId)){
+			
+			$args = $UserId.", ".$TaskId;
+			echo "test var types////";
+			
+			//$result = MySQLiAccess::call("claimTask", $args);
+			$result = MySQLiAccess::call2("claimTask", $args);
+			
+			if($result){
+				$retVal = true;
+				echo "task has been claimed////";
+			}
+			else{
+				$retVal = false;
+				echo "Failed to insert TaskId, UserId tuple into database";
+			}
+			
+		}else{
+			echo "TaskId or UserId not set";
+		}
+		return $retVal;
+		
+	}*/
 	
 	public static function claimTask($TaskId, $UserId){
 		
@@ -271,7 +302,7 @@
 			return $result;
 		}	
 	}
-	//Checks whether the completeDate deadline has been passed and returns a boolean accordingly
+	
 	public static function reviewCheck($taskId){
 		
 		$retVal = null;
@@ -281,11 +312,11 @@
 		
 		if($result==0){
 			$retVal = true;
-			echo "deadline completeDate  passed////";
+			//echo "deadline completeDate  passed////";
 			
 		}else{
 			$retval = false;
-			echo "deadline competeDate not passed////";
+			//echo "deadline completeDate not passed////";
 		}
 		
 		return $retVal;

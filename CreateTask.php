@@ -159,7 +159,7 @@
 			<nav id="nav">
 				<ul class="container">
 					<li><a href="./index.php">Home</a></li>
-					<li><a href=\"./logout.php\" class=\"\">Logout</a></li>
+					<li><a href="./logout.php">Logout</a></li>
 				</ul>
 			</nav>
 
